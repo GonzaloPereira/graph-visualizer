@@ -6,3 +6,15 @@
   -ms-user-select: none;
   user-select: none;
 }
+.draw-graph {
+  cursor: crosshair;
+}
+.draw-graph:focus {
+  outline: none;
+}
+.node {
+  cursor: pointer;
+}
+.edge {
+  cursor: pointer;
+}

@@ -24,6 +24,7 @@ export default function Canvas() {
   const [currentNode, setCurrentNode] = useState(null);
   const [currentEdge, setCurrentEdge] = useState(null);
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
+  const [isWeighted, setIsWeighted] = useState(true);
   const numNodes = useRef(0);
   const numEdges = useRef(0);
 
@@ -145,6 +146,7 @@ export default function Canvas() {
             <Edge
               key={idx}
               id={idx}
+              weight={isWeighted ? edge.w : '0'}
               position={{
                 x1: graphData.nodes[edge.u].x,
                 y1: graphData.nodes[edge.u].y,

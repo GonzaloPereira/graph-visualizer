@@ -23,7 +23,7 @@ export default function Canvas() {
   const [graphData, updateGraphData] = useReducer(dataReducer, { nodes: {}, edges: {} });
   const [currentNode, setCurrentNode] = useState(null);
   const [currentEdge, setCurrentEdge] = useState(null);
-  const [vector, setVector] = useState({ x: 0, y: 0 });
+  const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
   const numNodes = useRef(0);
   const numEdges = useRef(0);
 
@@ -56,18 +56,42 @@ export default function Canvas() {
       value: id,
     });
   }
+  function handleClickEdge(id) {
+    setCurrentEdge(id);
+    setCurrentNode(null);
+  }
+  // Drag and drop functionality
+  const dragTimeoutId = useRef('');
+  const [isDragging, setIsDragging] = useState(false);
+
+  function handleMouseUpNode() {
+    if (isDragging) {
+      DropNode();
+    } else {
+      clearTimeout(dragTimeoutId.current);
+    }
+  }
   function handleClickNode(id) {
     if (currentNode == null) {
       setCurrentNode(id);
       setCurrentEdge(null);
+      dragTimeoutId.current = setTimeout(() => {
+        setIsDragging(true);
+      }, 100);
     } else {
       createEdge(currentNode, id);
       setCurrentNode(null);
     }
   }
-  function handleClickEdge(id) {
-    setCurrentEdge(id);
+  function DragNode(posX, posY) {
+    updateGraphData({
+      name: 'add-node',
+      value: { id: currentNode, node: { x: posX, y: posY } },
+    });
+  }
+  function DropNode() {
     setCurrentNode(null);
+    setIsDragging(false);
   }
   return (
     <div
@@ -78,27 +102,38 @@ export default function Canvas() {
         setCurrentEdge(null);
       }}
       onMouseMove={(event) => {
-        setVector({
-          x: event.nativeEvent.offsetX,
-          y: event.nativeEvent.offsetY,
-        });
+        if (isDragging) {
+          DragNode(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
+        } else {
+          setEdgeVector({
+            x: event.nativeEvent.offsetX,
+            y: event.nativeEvent.offsetY,
+          });
+        }
       }}
+      onMouseUp={handleMouseUpNode}
       onKeyDown={(event) => {
-        if (String(event.code) !== 'Delete') return;
-        if (currentEdge != null) deleteEdge(currentEdge);
-        if (currentNode != null) deleteNode(currentNode);
-        setCurrentNode(null);
-        setCurrentEdge(null);
+        console.log(event.code);
+        if (event.code === 'Escape') {
+          setCurrentNode(null);
+          setCurrentEdge(null);
+        }
+        if (event.code === 'Delete') {
+          if (currentEdge != null) deleteEdge(currentEdge);
+          if (currentNode != null) deleteNode(currentNode);
+          setCurrentNode(null);
+          setCurrentEdge(null);
+        }
       }}
       tabIndex='0'
     >
       <svg style={{ width: '100%', height: '100%' }}>
-        {currentNode != null && (
+        {currentNode != null && isDragging === false && (
           <line
             x1={graphData.nodes[currentNode].x}
             y1={graphData.nodes[currentNode].y}
-            x2={vector.x}
-            y2={vector.y}
+            x2={edgeVector.x}
+            y2={edgeVector.y}
             stroke='black'
             strokeWidth='3px'
           />
@@ -124,7 +159,16 @@ export default function Canvas() {
         {Object.entries(graphData.nodes).map((element) => {
           const idx = element[0];
           const node = element[1];
-          return <Node key={idx} id={idx} position={node} handleClick={handleClickNode} currentNode={currentNode} />;
+          return (
+            <Node
+              key={idx}
+              id={idx}
+              position={node}
+              handleClick={handleClickNode}
+              currentNode={currentNode}
+              isDragged={isDragging && idx === currentNode}
+            />
+          );
         })}
       </svg>
     </div>

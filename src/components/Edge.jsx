@@ -18,6 +18,9 @@ export default function Edge({ id, position, currentEdge, handleClick }) {
         stroke={currentEdge === id ? 'blue' : 'black'}
         strokeWidth='3px'
       />
+      <text x={(position.x1 + position.x2) / 2} y={(position.y1 + position.y2) / 2} className='unselectable' fill='black'>
+        {1}
+      </text>
     </g>
   );
 }

@@ -10,7 +10,7 @@ export default function Node({ position, id, currentNode, setCurrentNode, create
     <g transform={`translate(${position.x},${position.y})`} onClick={handleClick}>
       <circle r="20" fill={currentNode === id ? "yellow" : "white"} stroke="black" strokeWidth="4px"></circle>
       <text x={-4.5 * (1 + (id >= 9))} className="unselectable" y="5" fill="black">
-        {id + 1}
+        {Number(id) + 1}
       </text>
     </g>
   );

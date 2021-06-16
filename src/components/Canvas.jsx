@@ -1,37 +1,38 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useRef } from "react";
 import Node from "./Node";
 import "./Canvas.css";
 
 function dataReducer(state, event) {
   switch (event.name) {
     case "nodes":
-      return { ...state, nodes: [...state.nodes, event.value] };
+      return { ...state, nodes: { ...state.nodes, [event.value.id]: event.value.node } };
     case "edges":
-      return { ...state, edges: [...state.edges, event.value] };
+      return { ...state, edges: { ...state.edges, [event.value.id]: event.value.edge } };
     default:
       throw new Error();
   }
 }
 export default function Canvas() {
-  const [graphData, updateGraphData] = useReducer(dataReducer, { nodes: [], edges: [] });
+  const [graphData, updateGraphData] = useReducer(dataReducer, { nodes: {}, edges: {} });
   const [currentNode, setCurrentNode] = useState(null);
   const [vector, setVector] = useState({ x: 0, y: 0 });
+  const numNodes = useRef(0);
+  const numEdges = useRef(0);
 
   function createNode(posX, posY) {
     updateGraphData({
       name: "nodes",
-      value: { x: posX, y: posY },
+      value: { id: numNodes.current++, node: { x: posX, y: posY } },
     });
   }
   function createEdge(first, second) {
     console.log("Creating...");
     updateGraphData({
       name: "edges",
-      value: { u: first, v: second, w: 1 },
+      value: { id: numEdges.current++, edge: { u: first, v: second, w: 1 } },
     });
     setCurrentNode(null);
   }
-  console.log(graphData);
   return (
     <div
       className="draw-graph"
@@ -57,27 +58,35 @@ export default function Canvas() {
             strokeWidth="3px"
           />
         )}
-        {graphData.edges.map((edge, idx) => (
-          <line
-            key={idx}
-            x1={graphData.nodes[edge.u].x}
-            y1={graphData.nodes[edge.u].y}
-            x2={graphData.nodes[edge.v].x}
-            y2={graphData.nodes[edge.v].y}
-            stroke="black"
-            strokeWidth="3px"
-          />
-        ))}
-        {graphData.nodes.map((node, idx) => (
-          <Node
-            key={idx}
-            id={idx}
-            position={node}
-            currentNode={currentNode}
-            setCurrentNode={setCurrentNode}
-            createEdge={createEdge}
-          />
-        ))}
+        {Object.entries(graphData.edges).map((element) => {
+          const idx = element[0];
+          const edge = element[1];
+          return (
+            <line
+              key={idx}
+              x1={graphData.nodes[edge.u].x}
+              y1={graphData.nodes[edge.u].y}
+              x2={graphData.nodes[edge.v].x}
+              y2={graphData.nodes[edge.v].y}
+              stroke="black"
+              strokeWidth="3px"
+            />
+          );
+        })}
+        {Object.entries(graphData.nodes).map((element) => {
+          const idx = element[0];
+          const node = element[1];
+          return (
+            <Node
+              key={idx}
+              id={idx}
+              position={node}
+              currentNode={currentNode}
+              setCurrentNode={setCurrentNode}
+              createEdge={createEdge}
+            />
+          );
+        })}
       </svg>
     </div>
   );

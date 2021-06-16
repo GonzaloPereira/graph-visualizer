@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/graph-visualizer/static/css/main.bfa3367c.chunk.css",
+    "main.js": "/graph-visualizer/static/js/main.79b6dc99.chunk.js",
+    "main.js.map": "/graph-visualizer/static/js/main.79b6dc99.chunk.js.map",
+    "runtime-main.js": "/graph-visualizer/static/js/runtime-main.7b57836b.js",
+    "runtime-main.js.map": "/graph-visualizer/static/js/runtime-main.7b57836b.js.map",
+    "static/js/2.9d6a1b00.chunk.js": "/graph-visualizer/static/js/2.9d6a1b00.chunk.js",
+    "static/js/2.9d6a1b00.chunk.js.map": "/graph-visualizer/static/js/2.9d6a1b00.chunk.js.map",
+    "static/js/3.404acb37.chunk.js": "/graph-visualizer/static/js/3.404acb37.chunk.js",
+    "static/js/3.404acb37.chunk.js.map": "/graph-visualizer/static/js/3.404acb37.chunk.js.map",
+    "index.html": "/graph-visualizer/index.html",
+    "static/css/main.bfa3367c.chunk.css.map": "/graph-visualizer/static/css/main.bfa3367c.chunk.css.map",
+    "static/js/2.9d6a1b00.chunk.js.LICENSE.txt": "/graph-visualizer/static/js/2.9d6a1b00.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b57836b.js",
+    "static/js/2.9d6a1b00.chunk.js",
+    "static/css/main.bfa3367c.chunk.css",
+    "static/js/main.79b6dc99.chunk.js"
+  ]
+}

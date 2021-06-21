@@ -6,8 +6,14 @@
   -ms-user-select: none;
   user-select: none;
 }
+.draw-graph-container {
+}
 .draw-graph {
   cursor: crosshair;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 500px;
+  height: 500px;
+  margin: 80px auto auto;
 }
 .draw-graph:focus {
   outline: none;
@@ -17,4 +23,39 @@
 }
 .edge {
   cursor: pointer;
+}
+.edit-weight-form {
+  border-radius: 3px;
+  position: absolute;
+  background-color: #7ac7c4;
+  display: grid;
+  grid-template-columns: max-content 20px;
+  grid-template-rows: 25px;
+  align-items: center;
+  padding: 0;
+}
+.edit-weight-form input {
+  height: 15px;
+  margin-left: 5px;
+  margin-right: 3px;
+  width: 60px;
+  border-style: solid;
+  border-width: 0px;
+  border-color: white;
+  background-color: #c4edde;
+  border-radius: 2px;
+  text-align: center;
+}
+.edit-weight-form input:focus {
+  outline: none;
+}
+.edit-weight-form button {
+  margin: 3px;
+  height: 17px;
+  border-style: none;
+  border-radius: 2px;
+  padding: 0;
+  font-size: 12.5px;
+  color: 'white';
+  background-color: #f73859;
 }

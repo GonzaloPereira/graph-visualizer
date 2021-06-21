@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useRef } from 'react';
 import Node from './Node';
 import Edge from './Edge';
+import EditWeight from './EditWeight';
 import './Canvas.css';
 
 function dataReducer(state, event) {
@@ -11,6 +12,9 @@ function dataReducer(state, event) {
       return { ...state, edges: { ...state.edges, [event.value.id]: event.value.edge } };
     case 'delete-node':
       delete state.nodes[event.value];
+      return state;
+    case 'edit-edge':
+      state.edges[event.value.id].w = event.value.weight;
       return state;
     case 'delete-edge':
       delete state.edges[event.value];
@@ -57,8 +61,8 @@ export default function Canvas() {
       value: id,
     });
   }
-  function handleClickEdge(id) {
-    setCurrentEdge(id);
+  function handleClickEdge(newEdgeData) {
+    setCurrentEdge(newEdgeData);
     setCurrentNode(null);
   }
   // Drag and drop functionality
@@ -74,8 +78,8 @@ export default function Canvas() {
   }
   function handleClickNode(id) {
     if (currentNode == null) {
+      clear();
       setCurrentNode(id);
-      setCurrentEdge(null);
       dragTimeoutId.current = setTimeout(() => {
         setIsDragging(true);
       }, 100);
@@ -94,41 +98,49 @@ export default function Canvas() {
     setCurrentNode(null);
     setIsDragging(false);
   }
+  function editWeight(id, weight) {
+    updateGraphData({
+      name: 'edit-edge',
+      value: { id, weight },
+    });
+  }
+  function clear() {
+    setCurrentNode(null);
+    setCurrentEdge(null);
+  }
   return (
-    <div
-      className='draw-graph'
-      onMouseDown={(event) => {
-        if (currentNode == null) createNode(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
-        else setCurrentNode(null);
-        setCurrentEdge(null);
-      }}
-      onMouseMove={(event) => {
-        if (isDragging) {
-          DragNode(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
-        } else {
-          setEdgeVector({
-            x: event.nativeEvent.offsetX,
-            y: event.nativeEvent.offsetY,
-          });
-        }
-      }}
-      onMouseUp={handleMouseUpNode}
-      onKeyDown={(event) => {
-        console.log(event.code);
-        if (event.code === 'Escape') {
-          setCurrentNode(null);
-          setCurrentEdge(null);
-        }
-        if (event.code === 'Delete') {
-          if (currentEdge != null) deleteEdge(currentEdge);
-          if (currentNode != null) deleteNode(currentNode);
-          setCurrentNode(null);
-          setCurrentEdge(null);
-        }
-      }}
-      tabIndex='0'
-    >
-      <svg style={{ width: '100%', height: '100%' }}>
+    <div className='draw-graph-container'>
+      <svg
+        className='draw-graph'
+        onMouseDown={(event) => {
+          if (currentNode == null && currentEdge == null) createNode(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
+          else clear();
+        }}
+        onMouseMove={(event) => {
+          if (isDragging) {
+            DragNode(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
+          } else {
+            setEdgeVector({
+              x: event.nativeEvent.offsetX,
+              y: event.nativeEvent.offsetY,
+            });
+          }
+        }}
+        onMouseUp={handleMouseUpNode}
+        onKeyDown={(event) => {
+          if (event.code === 'Escape') {
+            setCurrentNode(null);
+            setCurrentEdge(null);
+          }
+          if (event.code === 'Delete') {
+            if (currentEdge != null) deleteEdge(currentEdge);
+            if (currentNode != null) deleteNode(currentNode);
+            setCurrentNode(null);
+            setCurrentEdge(null);
+          }
+        }}
+        tabIndex='0'
+      >
         {currentNode != null && isDragging === false && (
           <line
             x1={graphData.nodes[currentNode].x}
@@ -146,7 +158,7 @@ export default function Canvas() {
             <Edge
               key={idx}
               id={idx}
-              weight={isWeighted ? edge.w : '0'}
+              weight={isWeighted ? edge.w : ''}
               position={{
                 x1: graphData.nodes[edge.u].x,
                 y1: graphData.nodes[edge.u].y,
@@ -154,6 +166,7 @@ export default function Canvas() {
                 y2: graphData.nodes[edge.v].y,
               }}
               currentEdge={currentEdge}
+              setCurrentEdge={setCurrentEdge}
               handleClick={handleClickEdge}
             />
           );
@@ -173,6 +186,7 @@ export default function Canvas() {
           );
         })}
       </svg>
+      {currentEdge != null && <EditWeight currentEdge={currentEdge} setCurrentEdge={setCurrentEdge} handleSubmit={editWeight} />}
     </div>
   );
 }

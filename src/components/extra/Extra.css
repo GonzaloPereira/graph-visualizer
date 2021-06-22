@@ -1,0 +1,26 @@
+.popup-out {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  overflow: auto;
+}
+.popup-in {
+  position: relative;
+}
+.popup-close-icon {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: black;
+}
+.popup-close-icon:hover,
+.popup-close-icon:focus {
+  opacity: 0.5;
+  text-decoration: none;
+  cursor: pointer;
+}

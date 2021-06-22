@@ -9,7 +9,7 @@ export default function Edge({ id, position, weight, currentEdge, handleClick })
   const textPosX = centerX + (isRight ? 1 : -1) * d * Math.sin(alfa);
   const textPosY = centerY + (!isRight ? 1 : -1) * d * Math.cos(alfa);
   const rotateTextAngle = (alfa * 180) / Math.PI - 180 * !isRight;
-  const translateTextDistance = -4.5 * Math.round(Math.log10(Math.abs(weight)) + 1);
+  const translateTextDistance = weight === '' ? 0 : -4.5 * Math.round(Math.log10(Math.abs(weight)) + 1);
   return (
     <g
       onMouseDown={(e) => {

@@ -98,9 +98,11 @@
 .edit-weight-form {
   border-radius: 3px;
   position: absolute;
-  background-color: #7ac7c4;
+  top: 40px;
+  justify-self: center;
+  background-color: #3f72af;
   display: grid;
-  grid-template-columns: max-content 20px;
+  grid-template-columns: max-content 24px;
   grid-template-rows: 25px;
   align-items: center;
   padding: 0;
@@ -122,6 +124,7 @@
 }
 .edit-weight-form button {
   margin: 3px;
+  padding: 0;
   height: 17px;
   border-style: none;
   border-radius: 2px;
@@ -169,26 +172,26 @@
 }
 
 /* Input / Output grid functionality  */
-.input-output {
+.import-export {
   margin: 0 10px 0 20px;
   display: grid;
   grid-template-rows: 30px 30px 1fr 30px;
   height: 500px;
   box-sizing: border-box;
 }
-.input-output h2 {
+.import-export h2 {
   background-color: #112d4e;
   margin: 0;
   cursor: pointer;
   font-size: 1rem;
   padding: 0.3rem;
 }
-.output-name {
+.export-name {
   border-radius: 5px 5px 0 0;
   border: none;
   border-bottom: solid #3f72af 1px;
 }
-.input-name {
+.import-name {
   border-radius: 0 0 5px 5px;
 }
 @keyframes dropMenu {
@@ -199,7 +202,7 @@
     height: 100%;
   }
 }
-.input-box {
+.import-box {
   background-color: white;
   color: black;
   animation-name: dropMenu;
@@ -208,7 +211,7 @@
   border-radius: 5px;
 }
 
-.output-box {
+.export-box {
   grid-row: 2/4;
   background-color: white;
   color: black;
@@ -217,7 +220,7 @@
   animation-timing-function: ease-out;
   border-radius: 5px;
 }
-.input-button {
+.import-button {
   background-color: #afc2e0;
   color: black;
   border-radius: 5px;
@@ -225,11 +228,11 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   cursor: pointer;
 }
-.input-button:hover {
+.import-button:hover {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   opacity: 0.8;
 }
-.input-output textarea {
+.import-export textarea {
   border: none;
   resize: none;
   height: 100%;

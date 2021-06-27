@@ -15,7 +15,6 @@ export default function EditWeight({ currentEdge, setCurrentEdge, handleSubmit }
         handleSubmit(currentEdge.id, newWeight.current.value);
         setCurrentEdge(null);
       }}
-      style={{ left: `calc(${currentEdge.textPosX}px + (100vw - 480px) / 2)`, top: `calc(${currentEdge.textPosY}px + 63px)` }}
     >
       <input type='number' ref={newWeight} autoFocus />
       <button type='submit'>

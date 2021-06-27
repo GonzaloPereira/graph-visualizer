@@ -1,10 +1,10 @@
-import "./App.css";
-import Canvas from "./components/Canvas";
+import './App.css';
+import DrawGraph from './components/DrawGraph/DrawGraph';
 
 function App() {
   return (
     <div className='App'>
-      <Canvas />
+      <DrawGraph />
     </div>
   );
 }

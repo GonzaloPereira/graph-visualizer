@@ -12,7 +12,7 @@ export default function EditWeight({ currentEdge, setCurrentEdge, handleSubmit }
       onSubmit={(e) => {
         e.preventDefault();
         if (newWeight.current.value === '') return;
-        handleSubmit(currentEdge.id, newWeight.current.value);
+        handleSubmit(currentEdge, newWeight.current.value);
         setCurrentEdge(null);
       }}
     >

@@ -33,23 +33,38 @@ function dataReducer(state, event) {
       state.edges[event.value.id].w = event.value.weight;
       return state;
     case 'delete-edge':
-      delete state.edges[event.value.id];
+      delete state.edges[event.value];
       return state;
     case 'set-graph':
       return event.value;
+    case 'set-isWeighted':
+      return { ...state, isWeighted: event.value };
+    case 'set-isDirected':
+      return { ...state, isDirected: event.value };
     default:
       throw new Error();
   }
 }
 export default function Canvas() {
-  const [graphData, updateGraphData] = useReducer(dataReducer, { topNode: 0, topEdge: 0, nodes: {}, edges: {} });
+  const blankGraph = { topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} };
+  const [graphData, updateGraphData] = useReducer(dataReducer, blankGraph);
   const [currentNode, setCurrentNode] = useState(null);
   const [currentEdge, setCurrentEdge] = useState(null);
-  const [isWeighted, setIsWeighted] = useState(false);
-  const [isDirected, setIsDirected] = useState(false);
-
   //Vector to draw temporary line
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
+  //Set to check if an edge between u,v exists
+  const [edgesSet, setEdgesSet] = useState(() => new Set());
+
+  function addToSet(item) {
+    setEdgesSet((prev) => new Set(prev).add(item));
+  }
+  function removeFromSet(item) {
+    setEdgesSet((prev) => {
+      const next = new Set(prev);
+      next.delete(item);
+      return next;
+    });
+  }
 
   function createNode(posX, posY) {
     updateGraphData({
@@ -58,6 +73,9 @@ export default function Canvas() {
     });
   }
   function createEdge(first, second) {
+    if (first === second) return;
+    if (edgesSet.has(JSON.stringify([first, second]))) return;
+    addToSet(JSON.stringify([first, second]));
     updateGraphData({
       name: 'add-edge',
       value: { edge: { u: first, v: second, w: 1 } },
@@ -75,13 +93,14 @@ export default function Canvas() {
     });
   }
   function deleteEdge(id) {
+    removeFromSet(JSON.stringify([graphData.edges[id].u, graphData.edges[id].v]));
     updateGraphData({
       name: 'delete-edge',
       value: id,
     });
   }
-  function handleClickEdge(newEdgeData) {
-    setCurrentEdge(newEdgeData);
+  function handleClickEdge(id) {
+    setCurrentEdge(id);
     setCurrentNode(null);
   }
   // Drag and drop functionality
@@ -132,6 +151,10 @@ export default function Canvas() {
       name: 'set-graph',
       value: graph,
     });
+    edgesSet.clear();
+    Object.values(graph.edges).forEach((edge) => {
+      addToSet(JSON.stringify([edge.u, edge.v]));
+    });
   }
   return (
     <div className='popup-out'>
@@ -162,7 +185,6 @@ export default function Canvas() {
             if (event.code === 'Delete') {
               if (currentEdge != null) {
                 deleteEdge(currentEdge);
-                console.log('Deleting..');
               }
               if (currentNode != null) deleteNode(currentNode);
               setCurrentNode(null);
@@ -188,16 +210,19 @@ export default function Canvas() {
               <Edge
                 key={idx}
                 id={idx}
-                weight={isWeighted ? edge.w : ''}
+                edge={edge}
+                currentEdge={currentEdge}
                 position={{
                   x1: graphData.nodes[edge.u].x,
                   y1: graphData.nodes[edge.u].y,
                   x2: graphData.nodes[edge.v].x,
                   y2: graphData.nodes[edge.v].y,
                 }}
-                currentEdge={currentEdge}
                 setCurrentEdge={setCurrentEdge}
                 handleClick={handleClickEdge}
+                isWeighted={graphData.isWeighted}
+                isDirected={graphData.isDirected}
+                isCurved={edgesSet.has(JSON.stringify([edge.v, edge.u]))}
               />
             );
           })}
@@ -216,15 +241,21 @@ export default function Canvas() {
             );
           })}
         </svg>
-        {currentEdge != null && isWeighted && (
+        {currentEdge != null && graphData.isWeighted && (
           <EditWeight currentEdge={currentEdge} setCurrentEdge={setCurrentEdge} handleSubmit={editWeight} />
         )}
         <ExportImport graphData={graphData} setGraph={setGraph} />
         <BackButton />
-        <WeightedEdgesToggle isWeighted={isWeighted} setIsWeighted={setIsWeighted} />
+        <WeightedEdgesToggle
+          isWeighted={graphData.isWeighted}
+          setIsWeighted={(checked) => updateGraphData({ name: 'set-isWeighted', value: checked })}
+        />
         <FinishButton />
-        <DirectedEdgesToggle isDirected={isDirected} setIsDirected={setIsDirected} />
-        <NewButton setGraph={setGraph} />
+        <DirectedEdgesToggle
+          isDirected={graphData.isDirected}
+          setIsDirected={(checked) => updateGraphData({ name: 'set-isDirected', value: checked })}
+        />
+        <NewButton resetGraph={() => setGraph(blankGraph)} />
       </div>
     </div>
   );

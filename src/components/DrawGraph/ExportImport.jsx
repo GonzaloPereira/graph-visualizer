@@ -4,7 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 export default function ExportImport({ graphData, setGraph }) {
   const [copyAlertOpen, setCopyAlertOpen] = useState(false);
-  const [showImport, setShowImport] = useReducer((st) => !st, true);
+  const [showImport, setShowImport] = useReducer((st) => !st, false);
   const [importText, setImportText] = useState('');
   return (
     <div className='import-export'>

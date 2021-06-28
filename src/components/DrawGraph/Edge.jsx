@@ -8,11 +8,17 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
   const centerY = 5 + (position.y1 + position.y2) / 2;
   const isRight = position.x2 > position.x1;
   const rotateTextAngle = alfa - 180 * !isRight;
-  const translateTextDistance = weight === '' ? 0 : -4.5 * Math.round(Math.log10(Math.abs(weight)) + 1);
+  const translateTextDistance = weight === '' ? 0 : -4.5 * Math.round(Math.log10(Math.abs(weight) + 1) + 1);
   const bezierX =
-    centerX + (edge.u < edge.v ? 1 : -1) * ((isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.sin((alfa * Math.PI) / 180));
+    centerX +
+    (isCurved ? 1 : 0) *
+      (edge.u < edge.v ? 1 : -1) *
+      ((isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.sin((alfa * Math.PI) / 180));
   const bezierY =
-    centerY + (edge.u < edge.v ? 1 : -1) * ((!isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.cos((alfa * Math.PI) / 180));
+    centerY +
+    (isCurved ? 1 : 0) *
+      (edge.u < edge.v ? 1 : -1) *
+      ((!isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.cos((alfa * Math.PI) / 180));
   const textPosX = isCurved ? 0.25 * position.x1 + 0.5 * bezierX + 0.25 * position.x2 : centerX;
   const textPosY = isCurved ? 0.25 * position.y1 + 0.5 * bezierY + 0.25 * position.y2 : centerY;
   const liftDistance = isCurved && edge.u > edge.v ? 20 : -10;
@@ -24,28 +30,42 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
     <g
       onMouseDown={(e) => {
         e.stopPropagation();
-        handleClick(id);
+        handleClick(id, 'single');
+      }}
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        handleClick(id, 'double');
       }}
       className='edge'
     >
-      <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='rgba(0,0,0,0)' strokeWidth='15px' />
       {!isCurved && (
-        <line
-          x1={position.x1}
-          y1={position.y1}
-          x2={position.x2}
-          y2={position.y2}
-          stroke={currentEdge && currentEdge === id ? 'blue' : 'black'}
-          strokeWidth='3px'
-        />
+        <>
+          <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='rgba(0,0,0,0)' strokeWidth='15px' />
+          <line
+            x1={position.x1}
+            y1={position.y1}
+            x2={position.x2}
+            y2={position.y2}
+            stroke={currentEdge && currentEdge === id ? 'blue' : 'black'}
+            strokeWidth='3px'
+          />
+        </>
       )}
       {isCurved && (
-        <path
-          d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
-          stroke='black'
-          strokeWidth='3px'
-          fill='transparent'
-        />
+        <>
+          <path
+            d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
+            stroke='rgba(0,0,0,0)'
+            strokeWidth='15px'
+            fill='transparent'
+          />
+          <path
+            d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
+            stroke={currentEdge && currentEdge === id ? 'blue' : 'black'}
+            strokeWidth='3px'
+            fill='transparent'
+          />
+        </>
       )}
       {isWeighted && (
         <text
@@ -64,6 +84,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           d={`M ${position.x2} ${position.y2} L ${position.x2 + 6} ${position.y2 + 20} 
           L ${position.x2 - 6} ${position.y2 + 20} Z`}
           transform={`rotate(${(isCurved ? angle : alfa) + 90} ${position.x2} ${position.y2}) translate(0 18)`}
+          fill={currentEdge && currentEdge === id ? 'blue' : 'black'}
         />
       )}
     </g>

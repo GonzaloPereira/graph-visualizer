@@ -20,7 +20,7 @@ export default function ExportImport({ graphData, setGraph }) {
               setCopyAlertOpen(true);
             }}
           />
-          <textarea value={JSON.stringify(graphData, null, '\t')} />
+          <textarea value={JSON.stringify(graphData, null, '\t')} readOnly />
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             autoHideDuration={500}

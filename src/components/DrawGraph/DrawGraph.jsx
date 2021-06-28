@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useRef } from 'react';
+import React, { useState, useReducer, useRef, useEffect } from 'react';
 import Node from './Node';
 import Edge from './Edge';
 import EditWeight from './EditWeight';
@@ -9,8 +9,15 @@ import FinishButton from './Buttons/FinishButton';
 import WeightedEdgesToggle from './Buttons/WeightedEdgesToggle';
 import DirectedEdgesToggle from './Buttons/DirectedEdgesToggle';
 import NewButton from './Buttons/NewButton';
+import TemporalEdge from './TemporalEdge';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import './DrawGraph.css';
 import '../extra/Extra.css';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
+}
 
 function dataReducer(state, event) {
   switch (event.name) {
@@ -45,16 +52,20 @@ function dataReducer(state, event) {
       throw new Error();
   }
 }
-export default function Canvas() {
+export default function DrawGraph() {
   const blankGraph = { topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} };
   const [graphData, updateGraphData] = useReducer(dataReducer, blankGraph);
   const [currentNode, setCurrentNode] = useState(null);
   const [currentEdge, setCurrentEdge] = useState(null);
+
+  //Error states
+  const [openError, setOpenError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [hasDoubleEdge, setHasDoubleEdge] = useState(false);
   //Vector to draw temporary line
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
   //Set to check if an edge between u,v exists
   const [edgesSet, setEdgesSet] = useState(() => new Set());
-
   function addToSet(item) {
     setEdgesSet((prev) => new Set(prev).add(item));
   }
@@ -65,6 +76,11 @@ export default function Canvas() {
       return next;
     });
   }
+  //State to open and close editWeight
+  const [showEditWeight, setShowEditWeight] = useState(false);
+  useEffect(() => {
+    if (currentEdge === null) setShowEditWeight(false);
+  }, [currentEdge]);
 
   function createNode(posX, posY) {
     updateGraphData({
@@ -74,7 +90,23 @@ export default function Canvas() {
   }
   function createEdge(first, second) {
     if (first === second) return;
-    if (edgesSet.has(JSON.stringify([first, second]))) return;
+    //If user tries to add edge to u->v and it already exists
+    if (edgesSet.has(JSON.stringify([first, second]))) {
+      setErrorMessage('Edge already exists!');
+      setOpenError(true);
+      return;
+    }
+    //If user tries to add edge u->v but v->u already exists and is not directed
+    if (!graphData.isDirected && edgesSet.has(JSON.stringify([second, first]))) {
+      setErrorMessage('Graph needs to be directed to add double edges!');
+      setOpenError(true);
+      return;
+    }
+    //If there exists and edge u->v and another v->u then make hasDoubleEdge true
+    if (edgesSet.has(JSON.stringify([second, first]))) {
+      setHasDoubleEdge(true);
+    }
+    //If there is no errors insert into set and update graph data
     addToSet(JSON.stringify([first, second]));
     updateGraphData({
       name: 'add-edge',
@@ -93,15 +125,22 @@ export default function Canvas() {
     });
   }
   function deleteEdge(id) {
+    //If the user deletes u->v and v->u exists then hasDoubleEdge becomes false
+    if (edgesSet.has(JSON.stringify([graphData.edges[id].v, graphData.edges[id].u]))) {
+      setHasDoubleEdge(false);
+    }
     removeFromSet(JSON.stringify([graphData.edges[id].u, graphData.edges[id].v]));
     updateGraphData({
       name: 'delete-edge',
       value: id,
     });
   }
-  function handleClickEdge(id) {
+  function handleClickEdge(id, clicks) {
     setCurrentEdge(id);
     setCurrentNode(null);
+    if (clicks === 'double') {
+      setShowEditWeight(true);
+    }
   }
   // Drag and drop functionality
   const dragTimeoutId = useRef('');
@@ -194,13 +233,11 @@ export default function Canvas() {
           tabIndex='0'
         >
           {currentNode != null && isDragging === false && (
-            <line
+            <TemporalEdge
               x1={graphData.nodes[currentNode].x}
               y1={graphData.nodes[currentNode].y}
               x2={edgeVector.x}
               y2={edgeVector.y}
-              stroke='black'
-              strokeWidth='3px'
             />
           )}
           {Object.entries(graphData.edges).map((element) => {
@@ -241,7 +278,25 @@ export default function Canvas() {
             );
           })}
         </svg>
-        {currentEdge != null && graphData.isWeighted && (
+        <Snackbar
+          open={openError}
+          autoHideDuration={2500}
+          onClose={(evt, reason) => {
+            if (reason === 'clickaway') return;
+            setOpenError(false);
+          }}
+        >
+          <Alert
+            onClose={(evt, reason) => {
+              if (reason === 'clickaway') return;
+              setOpenError(false);
+            }}
+            severity='error'
+          >
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        {showEditWeight && graphData.isWeighted && (
           <EditWeight currentEdge={currentEdge} setCurrentEdge={setCurrentEdge} handleSubmit={editWeight} />
         )}
         <ExportImport graphData={graphData} setGraph={setGraph} />
@@ -253,7 +308,15 @@ export default function Canvas() {
         <FinishButton />
         <DirectedEdgesToggle
           isDirected={graphData.isDirected}
-          setIsDirected={(checked) => updateGraphData({ name: 'set-isDirected', value: checked })}
+          setIsDirected={(checked) => {
+            //If it has double edge throw error when trying to change to undirected
+            if (hasDoubleEdge && checked === false) {
+              setErrorMessage("There is a double edge, graph can't be undirected until one of the edges is removed");
+              setOpenError(true);
+              return;
+            }
+            updateGraphData({ name: 'set-isDirected', value: checked });
+          }}
         />
         <NewButton resetGraph={() => setGraph(blankGraph)} />
       </div>

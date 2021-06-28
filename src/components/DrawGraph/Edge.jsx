@@ -10,15 +10,9 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
   const rotateTextAngle = alfa - 180 * !isRight;
   const translateTextDistance = weight === '' ? 0 : -4.5 * Math.round(Math.log10(Math.abs(weight) + 1) + 1);
   const bezierX =
-    centerX +
-    (isCurved ? 1 : 0) *
-      (edge.u < edge.v ? 1 : -1) *
-      ((isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.sin((alfa * Math.PI) / 180));
+    centerX + (edge.u < edge.v ? 1 : -1) * ((isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.sin((alfa * Math.PI) / 180));
   const bezierY =
-    centerY +
-    (isCurved ? 1 : 0) *
-      (edge.u < edge.v ? 1 : -1) *
-      ((!isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.cos((alfa * Math.PI) / 180));
+    centerY + (edge.u < edge.v ? 1 : -1) * ((!isRight ? 1 : -1) * Math.min(length / 4, 50) * Math.cos((alfa * Math.PI) / 180));
   const textPosX = isCurved ? 0.25 * position.x1 + 0.5 * bezierX + 0.25 * position.x2 : centerX;
   const textPosY = isCurved ? 0.25 * position.y1 + 0.5 * bezierY + 0.25 * position.y2 : centerY;
   const liftDistance = isCurved && edge.u > edge.v ? 20 : -10;
@@ -38,6 +32,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
       }}
       className='edge'
     >
+      {/* Straight lines */}
       {!isCurved && (
         <>
           <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='rgba(0,0,0,0)' strokeWidth='15px' />
@@ -46,11 +41,12 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
             y1={position.y1}
             x2={position.x2}
             y2={position.y2}
-            stroke={currentEdge && currentEdge === id ? 'blue' : 'black'}
+            stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
             strokeWidth='3px'
           />
         </>
       )}
+      {/* Curved lines  */}
       {isCurved && (
         <>
           <path
@@ -61,7 +57,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           />
           <path
             d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
-            stroke={currentEdge && currentEdge === id ? 'blue' : 'black'}
+            stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
             strokeWidth='3px'
             fill='transparent'
           />
@@ -72,7 +68,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           x={textPosX}
           y={textPosY}
           className='unselectable'
-          fill={currentEdge && currentEdge.id === id ? 'blue' : 'black'}
+          fill={currentEdge && currentEdge.id === id ? '#3F72AF' : 'black'}
           transform={`rotate(${rotateTextAngle} ${textPosX} ${textPosY}) 
           translate(${translateTextDistance} ${liftDistance})`}
         >
@@ -84,7 +80,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           d={`M ${position.x2} ${position.y2} L ${position.x2 + 6} ${position.y2 + 20} 
           L ${position.x2 - 6} ${position.y2 + 20} Z`}
           transform={`rotate(${(isCurved ? angle : alfa) + 90} ${position.x2} ${position.y2}) translate(0 18)`}
-          fill={currentEdge && currentEdge === id ? 'blue' : 'black'}
+          fill={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
         />
       )}
     </g>

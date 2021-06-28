@@ -1,6 +1,8 @@
 import React, { useState, useReducer } from 'react';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Snackbar from '@material-ui/core/Snackbar';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 export default function ExportImport({ graphData, setGraph }) {
   const [copyAlertOpen, setCopyAlertOpen] = useState(false);
@@ -8,9 +10,10 @@ export default function ExportImport({ graphData, setGraph }) {
   const [importText, setImportText] = useState('');
   return (
     <div className='import-export'>
-      <h2 className='export-name' onClick={() => setShowImport()}>
-        Export
-      </h2>
+      <div className='export-name' onClick={() => setShowImport()}>
+        {showImport ? <ArrowDropDownIcon /> : <CheckCircleIcon style={{ fontSize: '1.2rem' }} />}
+        <h2>Export</h2>
+      </div>
       {!showImport && (
         <div className='export-box'>
           <FileCopyIcon
@@ -30,9 +33,14 @@ export default function ExportImport({ graphData, setGraph }) {
           />
         </div>
       )}
-      <h2 className='import-name' onClick={() => setShowImport()}>
-        Import
-      </h2>
+      <div
+        className='import-name'
+        onClick={() => setShowImport()}
+        style={{ borderRadius: `${showImport ? '0' : '0 0 5px 5px'}` }}
+      >
+        {showImport ? <CheckCircleIcon style={{ fontSize: '1.2rem' }} /> : <ArrowDropDownIcon />}
+        <h2>Import</h2>
+      </div>
       {showImport && (
         <div className='import-box'>
           <textarea value={importText} onChange={(e) => setImportText(e.target.value)} />

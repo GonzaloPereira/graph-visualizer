@@ -61,7 +61,6 @@ export default function DrawGraph() {
   //Error states
   const [openError, setOpenError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [hasDoubleEdge, setHasDoubleEdge] = useState(false);
   //Vector to draw temporary line
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
   //Set to check if an edge between u,v exists
@@ -102,10 +101,6 @@ export default function DrawGraph() {
       setOpenError(true);
       return;
     }
-    //If there exists and edge u->v and another v->u then make hasDoubleEdge true
-    if (edgesSet.has(JSON.stringify([second, first]))) {
-      setHasDoubleEdge(true);
-    }
     //If there is no errors insert into set and update graph data
     addToSet(JSON.stringify([first, second]));
     updateGraphData({
@@ -125,10 +120,6 @@ export default function DrawGraph() {
     });
   }
   function deleteEdge(id) {
-    //If the user deletes u->v and v->u exists then hasDoubleEdge becomes false
-    if (edgesSet.has(JSON.stringify([graphData.edges[id].v, graphData.edges[id].u]))) {
-      setHasDoubleEdge(false);
-    }
     removeFromSet(JSON.stringify([graphData.edges[id].u, graphData.edges[id].v]));
     updateGraphData({
       name: 'delete-edge',
@@ -194,6 +185,14 @@ export default function DrawGraph() {
     Object.values(graph.edges).forEach((edge) => {
       addToSet(JSON.stringify([edge.u, edge.v]));
     });
+  }
+  function hasDoubleEdge() {
+    let ret = false;
+    Object.values(graphData.edges).forEach(({ u, v }) => {
+      console.log(u, v, edgesSet.has(JSON.stringify([u, v])), edgesSet.has(JSON.stringify([v, u])));
+      if (edgesSet.has(JSON.stringify([u, v])) && edgesSet.has(JSON.stringify([v, u]))) ret = true;
+    });
+    return ret;
   }
   return (
     <div className='popup-out'>
@@ -310,8 +309,9 @@ export default function DrawGraph() {
           isDirected={graphData.isDirected}
           setIsDirected={(checked) => {
             //If it has double edge throw error when trying to change to undirected
-            if (hasDoubleEdge && checked === false) {
-              setErrorMessage("There is a double edge, graph can't be undirected until one of the edges is removed");
+            console.log(hasDoubleEdge());
+            if (hasDoubleEdge() && checked === false) {
+              setErrorMessage("There is a double edge, graph can't be undirected until double edges are removed");
               setOpenError(true);
               return;
             }

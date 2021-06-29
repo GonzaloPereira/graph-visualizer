@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Edge({ id, edge, position, currentEdge, handleClick, isWeighted, isDirected, isCurved }) {
+export default function Edge({ id, edge, position, isWeighted, isDirected, isCurved }) {
   const weight = edge.w;
   const alfa = (Math.atan2(position.y2 - position.y1, position.x2 - position.x1) * 180) / Math.PI;
   const length = Math.sqrt((position.x1 - position.x2) ** 2 + (position.y1 - position.y2) ** 2);
@@ -21,29 +21,12 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
   const tempY = (1 - t) ** 2 * position.y1 + 2 * (1 - t) * t * bezierY + t ** 2 * position.y2;
   const angle = (Math.atan2(position.y2 - tempY, position.x2 - tempX) * 180) / Math.PI;
   return (
-    <g
-      onMouseDown={(e) => {
-        e.stopPropagation();
-        handleClick(id, 'single');
-      }}
-      onDoubleClick={(e) => {
-        e.stopPropagation();
-        handleClick(id, 'double');
-      }}
-      className='edge'
-    >
+    <g>
       {/* Straight lines */}
       {!isCurved && (
         <>
           <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='rgba(0,0,0,0)' strokeWidth='15px' />
-          <line
-            x1={position.x1}
-            y1={position.y1}
-            x2={position.x2}
-            y2={position.y2}
-            stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
-            strokeWidth='3px'
-          />
+          <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='black' strokeWidth='3px' />
         </>
       )}
       {/* Curved lines  */}
@@ -57,7 +40,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           />
           <path
             d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
-            stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
+            stroke='black'
             strokeWidth='3px'
             fill='transparent'
           />
@@ -68,7 +51,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           x={textPosX}
           y={textPosY}
           className='unselectable'
-          fill={currentEdge && currentEdge.id === id ? '#3F72AF' : 'black'}
+          fill='black'
           transform={`rotate(${rotateTextAngle} ${textPosX} ${textPosY}) 
           translate(${translateTextDistance} ${liftDistance})`}
         >
@@ -80,7 +63,7 @@ export default function Edge({ id, edge, position, currentEdge, handleClick, isW
           d={`M ${position.x2} ${position.y2} L ${position.x2 + 6} ${position.y2 + 20} 
           L ${position.x2 - 6} ${position.y2 + 20} Z`}
           transform={`rotate(${(isCurved ? angle : alfa) + 90} ${position.x2} ${position.y2}) translate(0 18)`}
-          fill={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
+          fill='black'
         />
       )}
     </g>

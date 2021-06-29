@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useRef, useEffect } from 'react';
-import Node from './Node';
-import Edge from './Edge';
+import NodeDrawn from './NodeDrawn';
+import EdgeDrawn from './EdgeDrawn';
 import EditWeight from './EditWeight';
 import Instructions from './Instructions';
 import ExportImport from './ExportImport';
@@ -52,7 +52,7 @@ function dataReducer(state, event) {
       throw new Error();
   }
 }
-export default function DrawGraph() {
+export default function DrawGraph({ close, sendGraph, currentGraph }) {
   const blankGraph = { topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} };
   const [graphData, updateGraphData] = useReducer(dataReducer, blankGraph);
   const [currentNode, setCurrentNode] = useState(null);
@@ -61,8 +61,10 @@ export default function DrawGraph() {
   //Error states
   const [openError, setOpenError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
   //Vector to draw temporary line
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
+
   //Set to check if an edge between u,v exists
   const [edgesSet, setEdgesSet] = useState(() => new Set());
   function addToSet(item) {
@@ -75,6 +77,12 @@ export default function DrawGraph() {
       return next;
     });
   }
+  //Update initially the graph
+  useEffect(() => {
+    setGraph(currentGraph);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   //State to open and close editWeight
   const [showEditWeight, setShowEditWeight] = useState(false);
   useEffect(() => {
@@ -243,7 +251,7 @@ export default function DrawGraph() {
             const idx = element[0];
             const edge = element[1];
             return (
-              <Edge
+              <EdgeDrawn
                 key={idx}
                 id={idx}
                 edge={edge}
@@ -266,7 +274,7 @@ export default function DrawGraph() {
             const idx = element[0];
             const node = element[1];
             return (
-              <Node
+              <NodeDrawn
                 key={idx}
                 id={idx}
                 position={node}
@@ -299,12 +307,17 @@ export default function DrawGraph() {
           <EditWeight currentEdge={currentEdge} setCurrentEdge={setCurrentEdge} handleSubmit={editWeight} />
         )}
         <ExportImport graphData={graphData} setGraph={setGraph} />
-        <BackButton />
+        <BackButton close={close} />
         <WeightedEdgesToggle
           isWeighted={graphData.isWeighted}
           setIsWeighted={(checked) => updateGraphData({ name: 'set-isWeighted', value: checked })}
         />
-        <FinishButton />
+        <FinishButton
+          finish={() => {
+            sendGraph(graphData);
+            close();
+          }}
+        />
         <DirectedEdgesToggle
           isDirected={graphData.isDirected}
           setIsDirected={(checked) => {

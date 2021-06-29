@@ -1,10 +1,9 @@
 import './App.css';
-import DrawGraph from './components/DrawGraph/DrawGraph';
-
+import Main from './components/Main';
 function App() {
   return (
     <div className='App'>
-      <DrawGraph />
+      <Main />
     </div>
   );
 }

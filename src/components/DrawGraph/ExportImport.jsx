@@ -6,7 +6,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 export default function ExportImport({ graphData, setGraph }) {
   const [copyAlertOpen, setCopyAlertOpen] = useState(false);
-  const [showImport, setShowImport] = useReducer((st) => !st, false);
+  const [showImport, setShowImport] = useReducer((st) => !st, true);
   const [importText, setImportText] = useState('');
   return (
     <div className='import-export'>

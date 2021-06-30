@@ -57,7 +57,6 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
   const [graphData, updateGraphData] = useReducer(dataReducer, blankGraph);
   const [currentNode, setCurrentNode] = useState(null);
   const [currentEdge, setCurrentEdge] = useState(null);
-
   //Error states
   const [openError, setOpenError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -65,18 +64,6 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
   //Vector to draw temporary line
   const [edgeVector, setEdgeVector] = useState({ x: 0, y: 0 });
 
-  //Set to check if an edge between u,v exists
-  const [edgesSet, setEdgesSet] = useState(() => new Set());
-  function addToSet(item) {
-    setEdgesSet((prev) => new Set(prev).add(item));
-  }
-  function removeFromSet(item) {
-    setEdgesSet((prev) => {
-      const next = new Set(prev);
-      next.delete(item);
-      return next;
-    });
-  }
   //Update initially the graph
   useEffect(() => {
     setGraph(currentGraph);
@@ -98,22 +85,20 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
   function createEdge(first, second) {
     if (first === second) return;
     //If user tries to add edge to u->v and it already exists
-    if (edgesSet.has(JSON.stringify([first, second]))) {
+    if (findEdge(first, second)) {
       setErrorMessage('Edge already exists!');
       setOpenError(true);
       return;
     }
     //If user tries to add edge u->v but v->u already exists and is not directed
-    if (!graphData.isDirected && edgesSet.has(JSON.stringify([second, first]))) {
+    if (!graphData.isDirected && findEdge(second, first)) {
       setErrorMessage('Graph needs to be directed to add double edges!');
       setOpenError(true);
       return;
     }
-    //If there is no errors insert into set and update graph data
-    addToSet(JSON.stringify([first, second]));
     updateGraphData({
       name: 'add-edge',
-      value: { edge: { u: first, v: second, w: 1 } },
+      value: { edge: { u: first, v: second, w: '1' } },
     });
   }
   function deleteNode(id) {
@@ -128,7 +113,6 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
     });
   }
   function deleteEdge(id) {
-    removeFromSet(JSON.stringify([graphData.edges[id].u, graphData.edges[id].v]));
     updateGraphData({
       name: 'delete-edge',
       value: id,
@@ -189,18 +173,16 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
       name: 'set-graph',
       value: graph,
     });
-    edgesSet.clear();
-    Object.values(graph.edges).forEach((edge) => {
-      addToSet(JSON.stringify([edge.u, edge.v]));
-    });
   }
   function hasDoubleEdge() {
     let ret = false;
     Object.values(graphData.edges).forEach(({ u, v }) => {
-      console.log(u, v, edgesSet.has(JSON.stringify([u, v])), edgesSet.has(JSON.stringify([v, u])));
-      if (edgesSet.has(JSON.stringify([u, v])) && edgesSet.has(JSON.stringify([v, u]))) ret = true;
+      if (findEdge(u, v) && findEdge(v, u)) ret = true;
     });
     return ret;
+  }
+  function findEdge(u, v) {
+    return Object.values(graphData.edges).find((edge) => edge.u === u && edge.v === v);
   }
   return (
     <div className='popup-out'>
@@ -266,7 +248,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
                 handleClick={handleClickEdge}
                 isWeighted={graphData.isWeighted}
                 isDirected={graphData.isDirected}
-                isCurved={edgesSet.has(JSON.stringify([edge.v, edge.u]))}
+                isCurved={findEdge(edge.v, edge.u) !== undefined}
               />
             );
           })}
@@ -322,7 +304,6 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
           isDirected={graphData.isDirected}
           setIsDirected={(checked) => {
             //If it has double edge throw error when trying to change to undirected
-            console.log(hasDoubleEdge());
             if (hasDoubleEdge() && checked === false) {
               setErrorMessage("There is a double edge, graph can't be undirected until double edges are removed");
               setOpenError(true);

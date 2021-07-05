@@ -23,9 +23,9 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
   function color() {
     switch (highlight) {
       case 1:
-        return 'red';
+        return '#39A2DB';
       case 2:
-        return 'blue';
+        return 'yellow';
       default:
         return 'black';
     }

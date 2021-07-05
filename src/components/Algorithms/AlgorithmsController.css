@@ -1,0 +1,33 @@
+.controller {
+}
+.controller h3 {
+  margin-top: 0.5rem;
+}
+.pseudocode {
+  margin: auto -0.5rem;
+  padding: 0.5rem;
+  font-size: 0.8vw;
+  text-align: left;
+  background-color: #112d4e;
+  border-radius: 5px;
+  list-style-position: outside;
+}
+.pseudocode li {
+  margin: 0;
+  margin-left: 1.5em;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  box-sizing: border-box;
+}
+.tab1 {
+  padding-left: 1em;
+}
+.tab2 {
+  padding-left: 2em;
+}
+.tab3 {
+  padding-left: 3em;
+}
+.tab4 {
+  padding-left: 4em;
+}

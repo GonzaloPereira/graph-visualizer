@@ -73,6 +73,7 @@ main {
   grid-area: algorithm;
   background-color: #3f72af;
   padding: 1rem;
+  color: white;
 }
 .reproductor {
   grid-area: reproductor;
@@ -90,7 +91,7 @@ main {
   font-size: 0.75rem;
   display: flex;
   flex-wrap: wrap;
-  column-gap: 5px;
+  column-gap: 0.5vw;
   align-items: center;
   justify-content: center;
   padding-top: 0.2rem;

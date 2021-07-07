@@ -78,6 +78,7 @@ main {
 .reproductor {
   grid-area: reproductor;
   background-color: #dbe2ef;
+  display: flex;
 }
 .logdata {
   grid-area: logdata;

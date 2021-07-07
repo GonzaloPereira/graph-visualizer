@@ -25,7 +25,7 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
       case 1:
         return '#39A2DB';
       case 2:
-        return 'yellow';
+        return 'red';
       default:
         return 'black';
     }

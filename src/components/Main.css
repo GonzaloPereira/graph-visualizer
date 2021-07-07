@@ -79,6 +79,7 @@ main {
   grid-area: reproductor;
   background-color: #dbe2ef;
   display: flex;
+  gap: 100px;
 }
 .logdata {
   grid-area: logdata;

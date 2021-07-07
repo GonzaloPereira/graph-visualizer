@@ -1,6 +1,6 @@
 const { delay, getAdj } = require('../Extra/Common.js');
 
-export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime) {
+export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying) {
   const topNode = graphData.topNode;
   const edges = Object.values(graphData.edges);
   const isDirected = graphData.isDirected;
@@ -59,4 +59,5 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
     setFocusCodeLine();
     await delay(delayTime / 5);
   }
+  setIsPlaying(false);
 }

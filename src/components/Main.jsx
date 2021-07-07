@@ -30,6 +30,7 @@ export default function Main() {
   const [vizData, updateVizData] = useReducer(vizDataReducer, blankVizData);
   const [currentAlgorithm, setCurrentAlgorithm] = useState('');
   const [speed, setSpeed] = useState(500);
+  const [isPlaying, setIsPlaying] = useState(false);
   function vizNode(id, highlightId) {
     updateVizData({
       name: 'node',
@@ -116,8 +117,10 @@ export default function Main() {
           graphData={graphData}
           resetViz={resetViz}
           delayTime={1000 - speed}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
         />
-        <Reproductor speed={speed} setSpeed={setSpeed} />
+        <Reproductor speed={speed} setSpeed={setSpeed} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
         <div className='logdata'>Log Data</div>
         <div className='draw-graph-area'>
           <div onClick={() => setShowDrawGraph(true)}>

@@ -6,7 +6,7 @@ export default function Menu({ setCurrentAlgorithm }) {
   const algorithms = [
     ['Elementary Graph Algorithms', ['Breadth-first search', 'Depth-first search', 'Topological sort']],
     ['Minimum Spanning Trees', ['Kruskal', 'Prim']],
-    ['Single-Source Shortest Paths', ['Breadth-first search', 'Dijkstra’s algorithm ', 'Bellman-Ford algorithm']],
+    ['Single-Source Shortest Paths', ['Breadth-first search', 'Dijkstra’s algorithm', 'Bellman-Ford algorithm']],
     ['All-Pairs Shortest Paths', ['Floyd-Warshall algorithm']],
     ['Maximum Flow', ['Ford-Fulkerson', 'Maximum bipartite matching']],
   ];

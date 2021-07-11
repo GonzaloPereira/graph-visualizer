@@ -1,10 +1,11 @@
-const { delay, getAdj } = require('../Extra/Common.js');
+const { delay, getAdj } = require('../Extra/Extra.js');
 
-export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog) {
+export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag) {
   const topNode = graphData.topNode;
   const edges = Object.values(graphData.edges);
   const isDirected = graphData.isDirected;
-  const adj = getAdj(topNode, edges, isDirected);
+  const isWeighted = graphData.isWeighted;
+  const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
   // BFS starts here
   await delay(50);
@@ -16,10 +17,15 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
     D.push(Number.MAX_VALUE);
     P.push(-1);
     adj.push([]);
+
+    //Visualization
+    setTag(i, '∞');
   }
   Q.push(source);
   D[source] = 0;
 
+  //Visualization
+  setTag(source, 0);
   printLog(`Minimum distance from ${source} to ${source} ->  D[${source}] = ${D[source]}`);
   setFocusCodeLine(4);
   await delay(delayTime);
@@ -28,8 +34,8 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
     const u = Q[0];
     Q.shift();
 
-    // Visualization code
-    vizNode(u, 2);
+    // Visualization
+    vizNode(u, 4);
     setFocusCodeLine(6);
     await delay(delayTime);
 
@@ -42,25 +48,21 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
         P[v] = Number(u);
         Q.push(v);
 
-        //Log print
+        // Visualization
+        setTag(v, D[v]);
         printLog(`Minimum distance from ${source} to ${v} ->  D[${v}] = ${D[v]}`);
-
-        // Visualization code
-        vizEdge(u, v, 1);
-        if (!isDirected) vizEdge(v, u, 1);
+        vizEdge(u, v, 1, isDirected);
         vizNode(v, 1);
         setFocusCodeLine(9);
         await delay(delayTime);
         setFocusCodeLine();
         await delay(delayTime / 5);
       } else {
-        // Visualization code
-        vizEdge(u, v, 2);
-        if (!isDirected) vizEdge(v, u, 2);
+        // Visualization
+        vizEdge(u, v, 2, isDirected);
         setFocusCodeLine();
         await delay(delayTime);
-        vizEdge(u, v, 0);
-        if (!isDirected) vizEdge(v, u, 0);
+        vizEdge(u, v, 0, isDirected);
       }
     }
     vizNode(u, 1);

@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
+import { Dijkstra } from './Dijkstra';
+import DijkstraPseudocode from './DijkstraPseudocode';
 import NodeSelector from '../Extra/NodeSelector';
-import BfsPseudocode from './BfsPseudocode';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SnackbarAlert from '../../Common/SnackbarAlert';
-import { Bfs } from './Bfs';
 
-export default function BFSController({
+export default function DijkstraController({
   currentAlgorithm,
   graphData,
   vizNode,
   vizEdge,
-  resetViz,
   delayTime,
   isPlaying,
   setIsPlaying,
   printLog,
+  setTag,
 }) {
-  const [source, setSource] = useState();
+  const [source, setSource] = useState('');
   const [focusCodeLine, setFocusCodeLine] = useState();
   // Errors
   const [openError, setOpenError] = useState(false);
@@ -33,29 +33,29 @@ export default function BFSController({
       setError('Please select or draw a graph first');
       return;
     }
-    if (!source) {
+    if (source === '') {
       setOpenError(true);
       setError('Please select source');
       return;
     }
+    if (!graphData.isWeighted) {
+      setOpenError(true);
+      setError('Graph should be weighted for this algorithm');
+      return;
+    }
     setIsPlaying(true);
-    resetViz();
-    Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog);
+    Dijkstra(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
   }
-
   return (
     <div className='controller'>
       <h3>{currentAlgorithm}</h3>
-      <BfsPseudocode focusCodeLine={focusCodeLine} />
+      <DijkstraPseudocode focusCodeLine={focusCodeLine} />
       <NodeSelector nodes={Object.keys(graphData.nodes)} source={source} setSource={setSource} />
       <div className='play-button' onClick={handleClick}>
         <h2>Play!</h2>
         <PlayArrowIcon style={{ fontSize: '1rem', marginTop: '0.1rem' }} />
       </div>
       <SnackbarAlert openError={openError} setOpenError={setOpenError} error={error} />
-      <a href='https://en.wikipedia.org/wiki/Breadth-first_search' target='_blank' rel='noreferrer'>
-        Algorithm info
-      </a>
     </div>
   );
 }

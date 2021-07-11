@@ -24,8 +24,9 @@
   background-color: hsl(212, 64%, 20%);
 }
 .submenu h3 {
-  border-bottom: solid #06121f 1px;
-  border-width: 80%;
+  border: none;
+  border-bottom: solid #06121f;
+  border-bottom-width: 1px;
   text-align: left;
   font-weight: 400;
   margin: 0;

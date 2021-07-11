@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useRef, useEffect } from 'react';
+import React, { useState, useReducer, useRef, useEffect, useCallback } from 'react';
 import DrawGraph from './DrawGraph/DrawGraph';
 import Node from './Canvas/Node';
 import Edge from './Canvas/Edge';
@@ -25,14 +25,14 @@ function vizDataReducer(state, event) {
 
 export default function Main() {
   const [showDrawGraph, setShowDrawGraph] = useState(false);
-  const blankGraph = { topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} };
-  const [graphData, setGraphData] = useState(blankGraph);
+  const blankGraph = useRef({ topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} });
+  const [graphData, setGraphData] = useState(blankGraph.current);
 
   const [currentAlgorithm, setCurrentAlgorithm] = useState();
 
   // Visualization states
-  const blankVizData = { nodes: {}, edges: {} };
-  const [vizData, updateVizData] = useReducer(vizDataReducer, blankVizData);
+  const blankVizData = useRef({ nodes: {}, edges: {} });
+  const [vizData, updateVizData] = useReducer(vizDataReducer, blankVizData.current);
   const [speed, setSpeed] = useState(600);
   const [isPlaying, setIsPlaying] = useState(false);
   function vizNode(id, highlightId) {
@@ -41,7 +41,11 @@ export default function Main() {
       value: { id: id, highlightId: highlightId },
     });
   }
-  function vizEdge(u, v, highlightId) {
+  function vizEdge(u, v, highlightId, isDirected) {
+    vizEdgeDirected(u, v, highlightId);
+    if (!isDirected) vizEdgeDirected(v, u, highlightId);
+  }
+  function vizEdgeDirected(u, v, highlightId) {
     const edge = findEdgeId(u, v);
     if (edge !== undefined) {
       updateVizData({
@@ -50,12 +54,12 @@ export default function Main() {
       });
     }
   }
-  function resetViz() {
+  const resetViz = useCallback(() => {
     updateVizData({
       name: 'reset',
-      value: blankVizData,
+      value: blankVizData.current,
     });
-  }
+  }, []);
   function findEdgeId(u, v) {
     return Object.keys(graphData.edges).find(
       (id) => Number(graphData.edges[id].u) === Number(u) && Number(graphData.edges[id].v) === Number(v)
@@ -75,10 +79,21 @@ export default function Main() {
   function printLog(line) {
     setLogData((prevState) => prevState.concat(line));
   }
+  // Tags for nodes
+  const [tagData, setTagData] = useState({});
+  function setTag(node, tag) {
+    setTagData((prev) => {
+      return { ...prev, [node]: tag };
+    });
+  }
+  //Reset visualization
   useEffect(() => {
-    if (isPlaying) setLogData([]);
-  }, [isPlaying]);
-
+    if (isPlaying) {
+      setLogData([]);
+      setTagData({});
+      resetViz();
+    }
+  }, [isPlaying, resetViz]);
   return (
     <>
       <main>
@@ -119,6 +134,7 @@ export default function Main() {
                   id={idx}
                   position={{ x: node.x + addPos.x, y: node.y + addPos.y }}
                   highlight={vizData.nodes[idx]}
+                  tag={tagData[idx]}
                 />
               );
             })}
@@ -129,11 +145,11 @@ export default function Main() {
           vizNode={vizNode}
           vizEdge={vizEdge}
           graphData={graphData}
-          resetViz={resetViz}
           delayTime={1000 - speed}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
           printLog={printLog}
+          setTag={setTag}
         />
         <Reproductor speed={speed} setSpeed={setSpeed} />
         <LogData logdata={logdata} />

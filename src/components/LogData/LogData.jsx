@@ -2,7 +2,6 @@ import React from 'react';
 import './LogData.css';
 
 export default function LogData({ logdata }) {
-  console.log(logdata);
   return (
     <div className='logdata'>
       {logdata

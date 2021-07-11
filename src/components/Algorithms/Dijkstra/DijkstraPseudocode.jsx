@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BfsPseudocode({ focusCodeLine }) {
+export default function DijkstraPseudocode({ focusCodeLine }) {
   function highlight(id) {
     return { backgroundColor: focusCodeLine === id ? '#06121f' : '' };
   }
@@ -14,15 +14,16 @@ export default function BfsPseudocode({ focusCodeLine }) {
       </li>
       <li className='tab1'>while (Q not empty) &#123;</li>
       <li className='tab2' style={highlight(6)}>
-        u = DEQUEUE(Q)
+        u ← vertex in Q with min dist[u]
       </li>
+      <li className='tab2'>remove u from Q</li>
       <li className='tab2'>for each v &#8712; G.Adj[u] &#123;</li>
-      <li className='tab3'>if (d[v] == &infin;) &#123;</li>
-      <li className='tab4' style={highlight(9)}>
-        d[v] = d[u] + 1
+      <li className='tab3'>if (d[u] + w[u][v] &#60; d[v]) &#123;</li>
+      <li className='tab4' style={highlight(10)}>
+        d[v] = d[u] + w[u][v]
       </li>
-      <li className='tab4' style={highlight(9)}>
-        ENQUEUE.(Q,v)
+      <li className='tab4' style={highlight(10)}>
+        ENQUEUE(Q,v)
       </li>
       <li className='tab3'>&#125;</li>
       <li className='tab2'>&#125;</li>

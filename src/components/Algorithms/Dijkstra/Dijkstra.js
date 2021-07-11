@@ -70,8 +70,8 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
 
   while (!Q.isEmpty()) {
     const { id: u, distance: qDistance } = Q.front();
-    if (qDistance > D[u]) continue;
     Q.pop();
+    if (qDistance > D[u]) continue;
 
     // Visualization
     printLog(`Minimum distance from ${source} to ${u} ->  D[${u}] = ${D[u]}`);

@@ -1,4 +1,6 @@
 .controller {
+  display: flex;
+  flex-direction: column;
 }
 .controller h3 {
   margin-top: 0.5rem;
@@ -30,4 +32,33 @@
 }
 .tab4 {
   padding-left: 4em;
+}
+.play-button {
+  margin-top: 1rem;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  width: 70%;
+  height: 70%;
+  box-sizing: border-box;
+  color: black;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+}
+.play-button:hover {
+  transform: scale(1.05);
+}
+.play-button h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.controller a {
+  color: white;
+  margin-top: 2rem;
 }

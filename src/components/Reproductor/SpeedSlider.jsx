@@ -52,7 +52,7 @@ export default function SpeedSlider({ speed, setSpeed }) {
           <p style={{ margin: '0.8rem' }}>Speed</p>
         </Grid>
         <Grid item xs>
-          <MySlider value={speed} onChange={handleChange} aria-labelledby='continuous-slider' min={0} max={900} step={1} />
+          <MySlider value={speed} onChange={handleChange} aria-labelledby='continuous-slider' min={400} max={900} step={1} />
         </Grid>
         <Grid item>
           <SpeedIcon />

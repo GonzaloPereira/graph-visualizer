@@ -10,14 +10,9 @@ import WeightedEdgesToggle from './Buttons/WeightedEdgesToggle';
 import DirectedEdgesToggle from './Buttons/DirectedEdgesToggle';
 import NewButton from './Buttons/NewButton';
 import TemporalEdge from './TemporalEdge';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import SnackbarAlert from '../Common/SnackbarAlert';
 import './DrawGraph.css';
-import '../extra/Extra.css';
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
-}
+import '../Common/Extra.css';
 
 function dataReducer(state, event) {
   switch (event.name) {
@@ -267,24 +262,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
             );
           })}
         </svg>
-        <Snackbar
-          open={openError}
-          autoHideDuration={2500}
-          onClose={(evt, reason) => {
-            if (reason === 'clickaway') return;
-            setOpenError(false);
-          }}
-        >
-          <Alert
-            onClose={(evt, reason) => {
-              if (reason === 'clickaway') return;
-              setOpenError(false);
-            }}
-            severity='error'
-          >
-            {errorMessage}
-          </Alert>
-        </Snackbar>
+        <SnackbarAlert openError={openError} setOpenError={setOpenError} error={errorMessage} />
         {showEditWeight && graphData.isWeighted && (
           <EditWeight currentEdge={currentEdge} setCurrentEdge={setCurrentEdge} handleSubmit={editWeight} />
         )}

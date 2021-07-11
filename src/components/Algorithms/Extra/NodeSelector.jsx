@@ -52,11 +52,10 @@ export default function NodeSelector({ nodes, source, setSource }) {
         inputProps={{ classes: { icon: classes.icon } }}
         style={{ color: 'white' }}
       >
-        <MenuItem value=''>
-          <em>None</em>
-        </MenuItem>
-        {nodes.map((node) => (
-          <MenuItem value={node}>{node}</MenuItem>
+        {nodes.map((node, idx) => (
+          <MenuItem key={idx} value={node}>
+            {node}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

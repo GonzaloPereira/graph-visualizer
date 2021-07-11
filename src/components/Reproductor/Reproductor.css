@@ -1,0 +1,6 @@
+.reproductor {
+  background-color: #f9f7f7;
+  display: flex;
+  gap: 100px;
+  justify-content: space-around;
+}

@@ -1,0 +1,14 @@
+.logdata {
+  position: relative;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.logdata p {
+  font-size: 0.9rem;
+  text-align: left;
+  margin-left: 4rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}

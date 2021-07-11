@@ -1,12 +1,14 @@
 const { delay, getAdj } = require('../Extra/Common.js');
 
-export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying) {
+export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog) {
   const topNode = graphData.topNode;
   const edges = Object.values(graphData.edges);
   const isDirected = graphData.isDirected;
   const adj = getAdj(topNode, edges, isDirected);
 
   // BFS starts here
+  await delay(50);
+  printLog('Breadth-first search:');
   const D = []; // Array of distances
   const Q = []; // Queue
   const P = []; // Parents
@@ -17,8 +19,11 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
   }
   Q.push(source);
   D[source] = 0;
+
+  printLog(`Minimum distance from ${source} to ${source} ->  D[${source}] = ${D[source]}`);
   setFocusCodeLine(4);
   await delay(delayTime);
+
   while (Q.length > 0) {
     const u = Q[0];
     Q.shift();
@@ -36,6 +41,9 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
         D[v] = D[u] + 1;
         P[v] = Number(u);
         Q.push(v);
+
+        //Log print
+        printLog(`Minimum distance from ${source} to ${v} ->  D[${v}] = ${D[v]}`);
 
         // Visualization code
         vizEdge(u, v, 1);

@@ -4,9 +4,10 @@ import Node from './Canvas/Node';
 import Edge from './Canvas/Edge';
 import Menu from './Menu/Menu';
 import Footer from './Footer';
-import Reproductor from './Reproductor';
+import Reproductor from './Reproductor/Reproductor';
 import AlgorithmsController from './Algorithms/AlgorithmsController';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import DrawGraphButton from './DrawGraphButton';
+import LogData from './LogData/LogData';
 import './Main.css';
 
 function vizDataReducer(state, event) {
@@ -26,10 +27,13 @@ export default function Main() {
   const [showDrawGraph, setShowDrawGraph] = useState(false);
   const blankGraph = { topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} };
   const [graphData, setGraphData] = useState(blankGraph);
+
+  const [currentAlgorithm, setCurrentAlgorithm] = useState();
+
+  // Visualization states
   const blankVizData = { nodes: {}, edges: {} };
   const [vizData, updateVizData] = useReducer(vizDataReducer, blankVizData);
-  const [currentAlgorithm, setCurrentAlgorithm] = useState('');
-  const [speed, setSpeed] = useState(500);
+  const [speed, setSpeed] = useState(600);
   const [isPlaying, setIsPlaying] = useState(false);
   function vizNode(id, highlightId) {
     updateVizData({
@@ -57,14 +61,24 @@ export default function Main() {
       (id) => Number(graphData.edges[id].u) === Number(u) && Number(graphData.edges[id].v) === Number(v)
     );
   }
+  // Canvas positioning
   const canvasRef = useRef();
   const [addPos, setAddPos] = useState({ x: 0, y: 0 });
   const canvasWidth = canvasRef.current ? canvasRef.current.getBoundingClientRect().width : 900;
   const canvasHeight = canvasRef.current ? canvasRef.current.getBoundingClientRect().height : 500;
-
   useEffect(() => {
     setAddPos({ x: (canvasWidth - 900) / 2, y: (canvasHeight - 500) / 2 });
   }, [canvasWidth, canvasHeight]);
+
+  //logdata states
+  const [logdata, setLogData] = useState([]);
+  function printLog(line) {
+    setLogData((prevState) => prevState.concat(line));
+  }
+  useEffect(() => {
+    if (isPlaying) setLogData([]);
+  }, [isPlaying]);
+
   return (
     <>
       <main>
@@ -119,15 +133,11 @@ export default function Main() {
           delayTime={1000 - speed}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
+          printLog={printLog}
         />
-        <Reproductor speed={speed} setSpeed={setSpeed} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
-        <div className='logdata'>Log Data</div>
-        <div className='draw-graph-area'>
-          <div onClick={() => setShowDrawGraph(true)}>
-            <h2>Draw graph</h2>
-            <ArrowForwardIosIcon style={{ fontSize: '1rem', marginTop: '0.1rem' }} />
-          </div>
-        </div>
+        <Reproductor speed={speed} setSpeed={setSpeed} />
+        <LogData logdata={logdata} />
+        <DrawGraphButton setShowDrawGraph={setShowDrawGraph} />
         <Footer />
       </main>
       {showDrawGraph && (

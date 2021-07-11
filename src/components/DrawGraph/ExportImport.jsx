@@ -6,7 +6,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 export default function ExportImport({ graphData, setGraph }) {
   const [copyAlertOpen, setCopyAlertOpen] = useState(false);
-  const [showImport, setShowImport] = useReducer((st) => !st, true);
+  const [showImport, setShowImport] = useReducer((st) => !st, false);
   const [importText, setImportText] = useState('');
   return (
     <div className='import-export'>
@@ -26,7 +26,7 @@ export default function ExportImport({ graphData, setGraph }) {
           <textarea value={JSON.stringify(graphData, null, '\t')} readOnly />
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            autoHideDuration={500}
+            autoHideDuration={1500}
             open={copyAlertOpen}
             onClose={() => setCopyAlertOpen(false)}
             message='Copied to clipboard!'

@@ -24,6 +24,7 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
   Q.push(source);
   D[source] = 0;
   console.log(adj);
+
   //Visualization
   setTag(source, 0);
   printLog(`Minimum distance from ${source} to ${source} ->  D[${source}] = ${D[source]}`);

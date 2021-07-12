@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dfs } from './Dfs';
 import DfsPseudocode from './DfsPseudocode';
 import NodeSelector from '../Extra/NodeSelector';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PlayButton from '../Extra/PlayButton';
 import SnackbarAlert from '../../Common/SnackbarAlert';
 
 export default function DfsController({
@@ -47,14 +47,8 @@ export default function DfsController({
       <h3>{currentAlgorithm}</h3>
       <DfsPseudocode focusCodeLine={focusCodeLine} />
       <NodeSelector nodes={Object.keys(graphData.nodes)} source={source} setSource={setSource} />
-      <div className='play-button' onClick={handleClick}>
-        <h2>Play!</h2>
-        <PlayArrowIcon style={{ fontSize: '1rem', marginTop: '0.1rem' }} />
-      </div>
+      <PlayButton handleClick={handleClick} />
       <SnackbarAlert openError={openError} setOpenError={setOpenError} error={error} />
-      <a href='https://en.wikipedia.org/wiki/Breadth-first_search' target='_blank' rel='noreferrer'>
-        Algorithm info
-      </a>
     </div>
   );
 }

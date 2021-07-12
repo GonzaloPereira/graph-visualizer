@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Dijkstra } from './Dijkstra';
-import DijkstraPseudocode from './DijkstraPseudocode';
-import NodeSelector from '../Extra/NodeSelector';
+import { Topsort } from './Topsort';
+import TopsortPseudocode from './TopsortPseudocode';
 import PlayButton from '../Extra/PlayButton';
 import SnackbarAlert from '../../Common/SnackbarAlert';
 
-export default function DijkstraController({
+export default function TopsortController({
   currentAlgorithm,
   graphData,
   vizNode,
@@ -16,7 +15,6 @@ export default function DijkstraController({
   printLog,
   setTag,
 }) {
-  const [source, setSource] = useState('');
   const [focusCodeLine, setFocusCodeLine] = useState();
   // Errors
   const [openError, setOpenError] = useState(false);
@@ -33,36 +31,22 @@ export default function DijkstraController({
       setError('Please select or draw a graph first');
       return;
     }
-    if (source === '') {
+    if (!graphData.isDirected) {
       setOpenError(true);
-      setError('Please select source');
-      return;
-    }
-    if (!graphData.isWeighted) {
-      setOpenError(true);
-      setError('Graph should be weighted for this algorithm');
-      return;
-    }
-    if (negativeEdges()) {
-      setOpenError(true);
-      setError('Graph should not have negative weights for this algorithm');
+      setError('Graph should be directed for this algorithm');
       return;
     }
     setIsPlaying(true);
-    Dijkstra(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
+    Topsort(graphData, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag, isNotDag);
   }
-  function negativeEdges() {
-    let ret = false;
-    Object.values(graphData.edges).forEach(({ w }) => {
-      if (w < 0) ret = true;
-    });
-    return ret;
+  function isNotDag() {
+    setOpenError(true);
+    setError('Topological sort is not possible, graph needs to be a directed acyclic graph (DAG)');
   }
   return (
     <div className='controller'>
       <h3>{currentAlgorithm}</h3>
-      <DijkstraPseudocode focusCodeLine={focusCodeLine} />
-      <NodeSelector nodes={Object.keys(graphData.nodes)} source={source} setSource={setSource} />
+      <TopsortPseudocode focusCodeLine={focusCodeLine} />
       <PlayButton handleClick={handleClick} />
       <SnackbarAlert openError={openError} setOpenError={setOpenError} error={error} />
     </div>

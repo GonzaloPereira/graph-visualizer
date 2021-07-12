@@ -8,22 +8,22 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
   const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
   // BFS starts here
-  await delay(50);
   printLog('Breadth-first search:');
+  await delay(50);
+
   const D = []; // Array of distances
   const Q = []; // Queue
   const P = []; // Parents
   for (let i = 0; i < topNode; i++) {
     D.push(Number.MAX_VALUE);
     P.push(-1);
-    adj.push([]);
 
     //Visualization
     setTag(i, '∞');
   }
   Q.push(source);
   D[source] = 0;
-
+  console.log(adj);
   //Visualization
   setTag(source, 0);
   printLog(`Minimum distance from ${source} to ${source} ->  D[${source}] = ${D[source]}`);

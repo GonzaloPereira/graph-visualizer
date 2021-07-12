@@ -5,7 +5,7 @@ import NodeSelector from '../Extra/NodeSelector';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SnackbarAlert from '../../Common/SnackbarAlert';
 
-export default function BFSController({
+export default function BfsController({
   currentAlgorithm,
   graphData,
   vizNode,

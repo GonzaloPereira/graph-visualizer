@@ -44,9 +44,9 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
   const isWeighted = graphData.isWeighted;
   const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
-  // BFS starts here
-  await delay(50);
+  // Dijkstra starts here
   printLog('Dijkstra’s algorithm:');
+  await delay(50);
 
   const D = []; // Array of distances
   const Q = new PriorityQueue(); // Priority queue
@@ -54,7 +54,6 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
   for (let i = 0; i < topNode; i++) {
     D.push(Number.MAX_VALUE);
     P.push(-1);
-    adj.push([]);
 
     //Visualization
     setTag(i, '∞');
@@ -74,7 +73,7 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
     if (qDistance > D[u]) continue;
 
     // Visualization
-    printLog(`Minimum distance from ${source} to ${u} ->  D[${u}] = ${D[u]}`);
+    printLog(`Found minimum distance from ${source} to ${u} ->  D[${u}] = ${D[u]}`);
     vizEdge(P[u], u, 1);
     vizNode(u, 4);
     setFocusCodeLine(6);
@@ -92,10 +91,12 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
 
         // Visualization code
         setTag(v, D[v]);
+        printLog(`Relaxed distance of node ${v} with node ${u}: New distance ${D[v]}`);
         vizEdge(u, v, 3, isDirected);
         vizNode(v, 3);
         setFocusCodeLine(10);
         await delay(delayTime);
+        vizNode(v, 0);
         setFocusCodeLine();
         await delay(delayTime / 5);
         vizEdge(u, v, 0, isDirected);

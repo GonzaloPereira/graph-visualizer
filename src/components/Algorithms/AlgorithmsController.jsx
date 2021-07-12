@@ -1,6 +1,7 @@
 import React from 'react';
 import BfsController from './BFS/BfsController';
 import DijkstraController from './Dijkstra/DijkstraController';
+import DfsController from './DFS/DfsController';
 import './AlgorithmsController.css';
 
 export default function AlgorithmsController(props) {
@@ -10,6 +11,8 @@ export default function AlgorithmsController(props) {
         return <BfsController {...props} />;
       case 'Dijkstra’s algorithm':
         return <DijkstraController {...props} />;
+      case 'Depth-first search':
+        return <DfsController {...props} />;
       default:
         return;
     }

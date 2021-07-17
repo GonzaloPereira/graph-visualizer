@@ -15,7 +15,7 @@ export async function Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
     visit.push(false);
   }
   printLog(`Start at node ${source}`);
-  DfsCall(source);
+  DfsCall(source, -1);
 
   async function DfsCall(u, parent) {
     if (visit[u]) {
@@ -35,7 +35,7 @@ export async function Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
 
     for (let i = 0; i < adj[u].length; i++) {
       const v = adj[u][i];
-
+      if (v === Number(parent)) continue;
       if (visit[v]) {
         //Visualization
         vizEdge(u, v, 2, isDirected);

@@ -5,8 +5,8 @@ import './Menu.css';
 export default function Menu({ setCurrentAlgorithm }) {
   const algorithms = [
     ['Elementary Graph Algorithms', ['Breadth-first search', 'Depth-first search', 'Topological sort']],
-    ['Minimum Spanning Trees', ['Kruskal', 'Prim']],
     ['Single-Source Shortest Paths', ['Breadth-first search', 'Dijkstra’s algorithm', 'Bellman-Ford algorithm']],
+    ['Minimum Spanning Trees', ['Kruskal', 'Prim']],
     ['All-Pairs Shortest Paths', ['Floyd-Warshall algorithm']],
     ['Maximum Flow', ['Ford-Fulkerson', 'Maximum bipartite matching']],
   ];

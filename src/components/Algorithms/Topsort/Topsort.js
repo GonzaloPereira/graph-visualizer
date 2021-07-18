@@ -45,7 +45,7 @@ export async function Topsort(
       isNotDag();
       printLog('Graph is not a DAG');
       printLog('Topological sort not possible');
-      vizEdge(parent, u, 2, isDirected);
+      vizEdge(parent, u, 'red', isDirected);
       setFocusCodeLine(6);
       return;
     }
@@ -53,8 +53,8 @@ export async function Topsort(
 
     //Visualization
     printLog(`Temporary mark on ${u}`);
-    vizNode(u, 3);
-    vizEdge(parent, u, 3, isDirected);
+    vizNode(u, 'green');
+    vizEdge(parent, u, 'green', isDirected);
     setFocusCodeLine(8);
     await delay(delayTime);
 
@@ -63,10 +63,10 @@ export async function Topsort(
 
       if (color[v] === 2) {
         //Visualization
-        vizEdge(u, v, 2, isDirected);
+        vizEdge(u, v, 'red', isDirected);
         setFocusCodeLine(4);
         await delay(delayTime);
-        vizEdge(u, v, 0, isDirected);
+        vizEdge(u, v, 'black', isDirected);
       }
       //Visualization
       setFocusCodeLine(10);
@@ -82,8 +82,8 @@ export async function Topsort(
     setTag(u, time--);
     printLog(`Permanent mark on ${u}`);
     printLog(`Current Topological sort: ${topSort}`);
-    vizNode(u, 1);
-    vizEdge(parent, u, 1, isDirected);
+    vizNode(u, 'blue');
+    vizEdge(parent, u, 'blue', isDirected);
     setFocusCodeLine(11);
     await delay(delayTime);
     setFocusCodeLine();

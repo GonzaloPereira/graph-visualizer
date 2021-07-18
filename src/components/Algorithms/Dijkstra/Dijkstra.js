@@ -74,8 +74,8 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
 
     // Visualization
     printLog(`Found minimum distance from ${source} to ${u} ->  D[${u}] = ${D[u]}`);
-    vizEdge(P[u], u, 1);
-    vizNode(u, 4);
+    vizEdge(P[u], u, 'blue', isDirected);
+    vizNode(u, 'yellow');
     setFocusCodeLine(6);
     await delay(delayTime);
 
@@ -92,23 +92,23 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
         // Visualization code
         setTag(v, D[v]);
         printLog(`Relaxed distance of node ${v} with node ${u}: New distance ${D[v]}`);
-        vizEdge(u, v, 3, isDirected);
-        vizNode(v, 3);
+        vizEdge(u, v, 'green', isDirected);
+        vizNode(v, 'green');
         setFocusCodeLine(10);
         await delay(delayTime);
-        vizNode(v, 0);
+        vizNode(v, 'white');
         setFocusCodeLine();
         await delay(delayTime / 5);
-        vizEdge(u, v, 0, isDirected);
+        vizEdge(u, v, 'black', isDirected);
       } else {
         // Visualization code
-        vizEdge(u, v, 2, isDirected);
+        vizEdge(u, v, 'red', isDirected);
         setFocusCodeLine();
         await delay(delayTime);
-        vizEdge(u, v, 0, isDirected);
+        vizEdge(u, v, 'black', isDirected);
       }
     }
-    vizNode(u, 1);
+    vizNode(u, 'blue');
     setFocusCodeLine();
     await delay(delayTime / 5);
   }

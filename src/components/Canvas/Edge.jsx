@@ -22,14 +22,16 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
   const angle = (Math.atan2(position.y2 - tempY, position.x2 - tempX) * 180) / Math.PI;
   function color() {
     switch (highlight) {
-      case 1:
+      case 'blue':
         return '#39A2DB'; // blue
-      case 2:
+      case 'red':
         return 'red';
-      case 3:
+      case 'green':
         return '#79D70F'; // green
-      case 4:
+      case 'yellow':
         return 'yellow';
+      case 'black':
+        return 'black';
       default:
         return 'black';
     }

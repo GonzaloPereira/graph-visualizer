@@ -25,11 +25,11 @@ export async function Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
 
     // Visualization
     printLog(`Node ${u} visited`);
-    vizEdge(parent, u, 1, isDirected);
-    vizNode(u, 4);
+    vizEdge(parent, u, 'blue', isDirected);
+    vizNode(u, 'yellow');
     setFocusCodeLine(5);
     await delay(delayTime);
-    vizNode(u, 1);
+    vizNode(u, 'blue');
     setFocusCodeLine();
     await delay(delayTime / 5);
 
@@ -38,10 +38,10 @@ export async function Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
       if (v === parent) continue;
       if (visit[v]) {
         //Visualization
-        vizEdge(u, v, 2, isDirected);
+        vizEdge(u, v, 'red', isDirected);
         setFocusCodeLine(3);
         await delay(delayTime);
-        vizEdge(u, v, 0, isDirected);
+        vizEdge(u, v, 'black', isDirected);
       }
       //Visualization
       setFocusCodeLine(7);

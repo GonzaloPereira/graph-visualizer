@@ -3,14 +3,16 @@ import React, { useRef } from 'react';
 export default function Node({ position, id, highlight, tag }) {
   function color() {
     switch (highlight) {
-      case 1:
+      case 'blue':
         return '#39A2DB'; // blue
-      case 2:
+      case 'red':
         return 'red';
-      case 3:
+      case 'green':
         return '#79D70F'; // green
-      case 4:
+      case 'yellow':
         return 'yellow';
+      case 'white':
+        return 'white';
       default:
         return 'white';
     }

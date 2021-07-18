@@ -19,24 +19,27 @@ function dataReducer(state, event) {
     case 'add-node':
       return {
         ...state,
-        nodes: { ...state.nodes, [event.value.id ?? state.topNode]: event.value.node },
-        topNode: state.topNode + (event.value.id === undefined ? 1 : 0),
+        nodes: { ...state.nodes, [state.topNode]: event.value.node },
+        topNode: state.topNode + 1,
       };
     case 'add-edge':
       return {
         ...state,
-        edges: { ...state.edges, [event.value.id ?? state.topEdge]: event.value.edge },
-        topEdge: state.topEdge + (event.value.id === undefined ? 1 : 0),
+        edges: { ...state.edges, [state.topEdge]: event.value.edge },
+        topEdge: state.topEdge + 1,
       };
-    case 'delete-node':
-      delete state.nodes[event.value];
-      return state;
+    case 'edit-node':
+      return { ...state, nodes: { ...state.nodes, [event.value.id]: event.value.node } };
     case 'edit-edge':
-      state.edges[event.value.id].w = event.value.weight;
-      return state;
+      return { ...state, edges: { ...state.edges, [event.value.id]: { ...state.edges[event.value.id], w: event.value.weight } } };
+    case 'delete-node':
+      const { nodes, ...withoutNodes } = state;
+      const { [event.value]: removedNode, ...updatedNodes } = nodes;
+      return { nodes: updatedNodes, ...withoutNodes };
     case 'delete-edge':
-      delete state.edges[event.value];
-      return state;
+      const { edges, ...withoutEdges } = state;
+      const { [event.value]: removedEdge, ...updatedEdges } = edges;
+      return { edges: updatedEdges, ...withoutEdges };
     case 'set-graph':
       return event.value;
     case 'set-isWeighted':
@@ -93,7 +96,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
     }
     updateGraphData({
       name: 'add-edge',
-      value: { edge: { u: first, v: second, w: '1' } },
+      value: { edge: { u: first, v: second, w: 1 } },
     });
   }
   function deleteNode(id) {
@@ -145,7 +148,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
   }
   function DragNode(posX, posY) {
     updateGraphData({
-      name: 'add-node',
+      name: 'edit-node',
       value: { id: currentNode, node: { x: posX, y: posY } },
     });
   }

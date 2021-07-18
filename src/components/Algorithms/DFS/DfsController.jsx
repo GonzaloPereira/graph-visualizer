@@ -39,7 +39,7 @@ export default function DfsController({
       return;
     }
     setIsPlaying(true);
-    Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
+    Dfs(graphData, Number(source), vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
   }
 
   return (

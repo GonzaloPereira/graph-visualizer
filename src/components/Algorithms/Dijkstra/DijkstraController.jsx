@@ -49,7 +49,7 @@ export default function DijkstraController({
       return;
     }
     setIsPlaying(true);
-    Dijkstra(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
+    Dijkstra(graphData, Number(source), vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
   }
   function negativeEdges() {
     let ret = false;

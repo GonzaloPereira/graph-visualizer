@@ -44,7 +44,7 @@ export default function BfsController({
       return;
     }
     setIsPlaying(true);
-    Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
+    Bfs(graphData, Number(source), vizNode, vizEdge, setFocusCodeLine, delayTime, setIsPlaying, printLog, setTag);
   }
 
   return (

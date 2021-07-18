@@ -46,7 +46,7 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
 
       if (D[v] === Number.MAX_VALUE) {
         D[v] = D[u] + 1;
-        P[v] = Number(u);
+        P[v] = u;
         Q.push(v);
 
         // Visualization

@@ -86,7 +86,7 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
 
       if (D[u] + w < D[v]) {
         D[v] = D[u] + w;
-        P[v] = Number(u);
+        P[v] = u;
         Q.enqueue(v, D[v]);
 
         // Visualization code

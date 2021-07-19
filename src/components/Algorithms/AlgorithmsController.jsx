@@ -4,6 +4,7 @@ import DijkstraController from './Dijkstra/DijkstraController';
 import DfsController from './DFS/DfsController';
 import TopsortController from './Topsort/TopsortController';
 import BellmanfordController from './Bellmanford/BellmanfordController';
+import KruskalController from './Kruskal/KruskalController';
 import './AlgorithmsController.css';
 
 export default function AlgorithmsController(props) {
@@ -19,6 +20,8 @@ export default function AlgorithmsController(props) {
         return <TopsortController {...props} />;
       case 'Bellman-Ford algorithm':
         return <BellmanfordController {...props} />;
+      case 'Kruskal':
+        return <KruskalController {...props} />;
       default:
         return;
     }

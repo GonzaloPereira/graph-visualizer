@@ -3,7 +3,7 @@ import BfsController from './BFS/BfsController';
 import DijkstraController from './Dijkstra/DijkstraController';
 import DfsController from './DFS/DfsController';
 import TopsortController from './Topsort/TopsortController';
-
+import BellmanfordController from './Bellmanford/BellmanfordController';
 import './AlgorithmsController.css';
 
 export default function AlgorithmsController(props) {
@@ -17,6 +17,8 @@ export default function AlgorithmsController(props) {
         return <DfsController {...props} />;
       case 'Topological sort':
         return <TopsortController {...props} />;
+      case 'Bellman-Ford algorithm':
+        return <BellmanfordController {...props} />;
       default:
         return;
     }

@@ -5,6 +5,7 @@ import DfsController from './DFS/DfsController';
 import TopsortController from './Topsort/TopsortController';
 import BellmanfordController from './Bellmanford/BellmanfordController';
 import KruskalController from './Kruskal/KruskalController';
+import PrimController from './Prim/PrimController';
 import './AlgorithmsController.css';
 
 export default function AlgorithmsController(props) {
@@ -22,6 +23,8 @@ export default function AlgorithmsController(props) {
         return <BellmanfordController {...props} />;
       case 'Kruskal':
         return <KruskalController {...props} />;
+      case 'Prim':
+        return <PrimController {...props} />;
       default:
         return;
     }

@@ -18,7 +18,7 @@ export default function EditWeight({ currentEdge, setCurrentEdge, handleSubmit }
     >
       <input type='number' ref={newWeight} autoFocus />
       <button type='submit'>
-        <ArrowForwardIcon fontSize='inherit' style={{ marginTop: '2px', color: 'white' }} />
+        <ArrowForwardIcon style={{ fontSize: '0.8rem', marginTop: '2px', color: 'white' }} />
       </button>
     </form>
   );

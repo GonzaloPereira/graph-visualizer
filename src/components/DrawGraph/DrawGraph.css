@@ -99,20 +99,20 @@
 .edit-weight-form {
   border-radius: 3px;
   position: absolute;
-  top: 40px;
+  bottom: 80px;
   justify-self: center;
   background-color: #3f72af;
   display: grid;
-  grid-template-columns: max-content 24px;
-  grid-template-rows: 25px;
+  grid-template-columns: 100px 30px;
+  grid-template-rows: 30px;
   align-items: center;
   padding: 0;
 }
 .edit-weight-form input {
-  height: 15px;
+  height: 60%;
   margin-left: 5px;
   margin-right: 3px;
-  width: 60px;
+  width: 90%;
   border-style: solid;
   border-width: 0px;
   border-color: white;
@@ -126,7 +126,7 @@
 .edit-weight-form button {
   margin: 3px;
   padding: 0;
-  height: 17px;
+  height: 60%;
   border-style: none;
   border-radius: 2px;
   font-size: 12.5px;

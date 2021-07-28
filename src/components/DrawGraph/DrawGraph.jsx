@@ -98,6 +98,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
       name: 'add-edge',
       value: { edge: { u: first, v: second, w: 1 } },
     });
+    if (graphData.isWeighted) handleClickEdge(graphData.topEdge, 'double');
   }
   function deleteNode(id) {
     Object.entries(graphData.edges).forEach((element) => {
@@ -182,6 +183,7 @@ export default function DrawGraph({ close, sendGraph, currentGraph }) {
   function findEdge(u, v) {
     return Object.values(graphData.edges).find((edge) => edge.u === u && edge.v === v);
   }
+
   return (
     <div className='popup-out'>
       <div className='draw-graph-container popup-in'>

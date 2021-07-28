@@ -13,7 +13,6 @@ export default function KruskalController({
   isPlaying,
   setIsPlaying,
   printLog,
-  setTag,
 }) {
   const [focusCodeLine, setFocusCodeLine] = useState();
   // Errors

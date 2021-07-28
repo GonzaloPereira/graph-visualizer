@@ -45,8 +45,8 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
   const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
   // Dijkstra starts here
-  printLog('Dijkstra’s algorithm:');
   await delay(50);
+  printLog('Dijkstra’s algorithm:');
 
   const D = []; // Array of distances
   const Q = new PriorityQueue(); // Priority queue

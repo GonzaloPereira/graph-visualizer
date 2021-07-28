@@ -19,8 +19,8 @@ export async function Bellmanford(
   });
 
   // Bellmanford starts here
-  printLog('Bellman-Ford:');
   await delay(50);
+  printLog('Bellman-Ford:');
 
   const D = []; // Distance
   const P = []; // Parents

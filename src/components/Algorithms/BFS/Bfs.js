@@ -8,8 +8,8 @@ export async function Bfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
   const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
   // BFS starts here
-  printLog('Breadth-first search:');
   await delay(50);
+  printLog('Breadth-first search:');
 
   const D = []; // Array of distances
   const Q = []; // Queue

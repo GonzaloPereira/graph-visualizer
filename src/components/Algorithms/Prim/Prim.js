@@ -45,8 +45,8 @@ export async function Prim(graphData, source, vizNode, vizEdge, setFocusCodeLine
   const adj = getAdj(topNode, edges, isDirected, isWeighted);
 
   // Prim starts here
-  printLog('Prim algorithm:');
   await delay(50);
+  printLog('Prim algorithm:');
 
   const cost = []; // Array of distances
   const Q = new PriorityQueue(); // Priority queue

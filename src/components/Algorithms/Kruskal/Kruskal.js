@@ -8,8 +8,8 @@ export async function Kruskal(graphData, vizNode, vizEdge, setFocusCodeLine, del
   });
 
   // Kruskal starts here
-  printLog('Kruskal: ');
   await delay(50);
+  printLog('Kruskal: ');
 
   const size = []; //Sizes of components
   const P = []; //Parents of nodes

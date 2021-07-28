@@ -7,8 +7,8 @@ export async function Dfs(graphData, source, vizNode, vizEdge, setFocusCodeLine,
   const adj = getAdj(topNode, edges, isDirected, false);
 
   // DFS starts here
-  printLog('Depth-first search:');
   await delay(50);
+  printLog('Depth-first search:');
 
   const visit = []; // Visited
   for (let i = 0; i < topNode; i++) {

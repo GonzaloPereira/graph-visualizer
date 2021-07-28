@@ -56,12 +56,6 @@ export default function Main() {
       });
     }
   }
-  const resetViz = useCallback(() => {
-    updateVizData({
-      name: 'reset',
-      value: blankVizData.current,
-    });
-  }, []);
   function findEdgeId(u, v) {
     return Object.keys(graphData.edges).find(
       (id) => Number(graphData.edges[id].u) === Number(u) && Number(graphData.edges[id].v) === Number(v)
@@ -89,10 +83,16 @@ export default function Main() {
     });
   }
   // Reset visualization
+  const resetViz = useCallback(() => {
+    setLogData([]);
+    setTagData({});
+    updateVizData({
+      name: 'reset',
+      value: blankVizData.current,
+    });
+  }, []);
   useEffect(() => {
     if (isPlaying) {
-      setLogData([]);
-      setTagData({});
       resetViz();
     }
   }, [isPlaying, resetViz]);

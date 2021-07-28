@@ -24,11 +24,15 @@ export async function Kruskal(graphData, vizNode, vizEdge, setFocusCodeLine, del
   for (let i = 0; i < edges.length; i++) {
     const { u, v, w } = edges[i];
 
+    //Visualization
+    setFocusCodeLine();
+    await delay(delayTime / 5);
+
     if (find(u) === find(v)) {
+      //Visualization
       vizEdge(u, v, 'red', isDirected);
       printLog(`${u} and ${v} are already connected`);
-      setFocusCodeLine();
-      await delay(delayTime / 5);
+      await delay(delayTime);
       vizEdge(u, v, 'black', isDirected);
     } else {
       totalWeight += w;
@@ -39,13 +43,10 @@ export async function Kruskal(graphData, vizNode, vizEdge, setFocusCodeLine, del
       vizNode(v, 'blue');
       vizEdge(u, v, 'blue', isDirected);
       printLog(`Join ${u} and ${v}`);
-      setFocusCodeLine();
-      await delay(delayTime / 5);
       setFocusCodeLine(5);
+      await delay(delayTime);
     }
     union(find(u), find(v));
-
-    await delay(delayTime);
   }
   if (components > 1) printLog(`Minimum spanning forest found: Total weight = ${totalWeight} -> Number of Trees = ${components}`);
   else printLog(`Minimum spanning tree found: Total weight = ${totalWeight}`);

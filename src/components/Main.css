@@ -6,7 +6,7 @@ main {
   grid-template-columns: minmax(200px, 1fr) minmax(900px, 5fr) minmax(200px, 1fr);
   grid-template-rows: 40px minmax(500px, 4fr) 40px minmax(40px, 1fr) 40px;
   grid-template-areas:
-    'header header draw-graph'
+    'header header header'
     'menu canvas algorithm'
     'menu reproductor algorithm'
     'menu logdata algorithm'
@@ -15,48 +15,6 @@ main {
 .header {
   grid-area: header;
   background-color: #3f72af;
-  display: flex;
-}
-.header h1 {
-  margin: 0;
-  margin-left: 1rem;
-  font-size: 1.25rem;
-  justify-self: center;
-  align-self: center;
-  font-family: 'Bree Serif', serif;
-  font-family: 'Open Sans', sans-serif;
-  color: white;
-}
-.draw-graph-area {
-  grid-area: draw-graph;
-  background-color: #3f72af;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-.draw-graph-area div {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  background-color: #112d4e;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  cursor: pointer;
-  width: 80%;
-  height: 80%;
-  box-sizing: border-box;
-  color: white;
-  align-self: center;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-}
-.draw-graph-area div:hover {
-  transform: scale(1.05);
-}
-.draw-graph-area h2 {
-  margin: 0;
-  font-size: 1rem;
 }
 .menu {
   grid-area: menu;

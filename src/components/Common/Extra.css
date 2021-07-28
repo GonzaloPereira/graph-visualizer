@@ -12,15 +12,3 @@
 .popup-in {
   position: relative;
 }
-.popup-close-icon {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  color: black;
-}
-.popup-close-icon:hover,
-.popup-close-icon:focus {
-  opacity: 0.5;
-  text-decoration: none;
-  cursor: pointer;
-}

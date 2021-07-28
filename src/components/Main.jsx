@@ -1,13 +1,14 @@
 import React, { useState, useReducer, useRef, useEffect, useCallback } from 'react';
 import DrawGraph from './DrawGraph/DrawGraph';
+import SelectGraph from './SelectGraph/SelectGraph';
 import Node from './Canvas/Node';
 import Edge from './Canvas/Edge';
 import Menu from './Menu/Menu';
 import Footer from './Footer';
 import Reproductor from './Reproductor/Reproductor';
 import AlgorithmsController from './Algorithms/AlgorithmsController';
-import DrawGraphButton from './DrawGraphButton';
 import LogData from './LogData/LogData';
+import Header from './Header/Header';
 import './Main.css';
 
 function vizDataReducer(state, event) {
@@ -25,6 +26,7 @@ function vizDataReducer(state, event) {
 
 export default function Main() {
   const [showDrawGraph, setShowDrawGraph] = useState(false);
+  const [showSelectGraph, setShowSelectGraph] = useState(false);
   const blankGraph = useRef({ topNode: 0, topEdge: 0, isWeighted: false, isDirected: false, nodes: {}, edges: {} });
   const [graphData, setGraphData] = useState(blankGraph.current);
 
@@ -74,7 +76,7 @@ export default function Main() {
     setAddPos({ x: (canvasWidth - 900) / 2, y: (canvasHeight - 500) / 2 });
   }, [canvasWidth, canvasHeight]);
 
-  //logdata states
+  // Logdata states
   const [logdata, setLogData] = useState([]);
   function printLog(line) {
     setLogData((prevState) => prevState.concat(line));
@@ -86,7 +88,7 @@ export default function Main() {
       return { ...prev, [node]: tag };
     });
   }
-  //Reset visualization
+  // Reset visualization
   useEffect(() => {
     if (isPlaying) {
       setLogData([]);
@@ -97,10 +99,7 @@ export default function Main() {
   return (
     <>
       <main>
-        <div className='header'>
-          <h1>Graph Visualizer</h1>
-        </div>
-
+        <Header setShowDrawGraph={setShowDrawGraph} setShowSelectGraph={setShowSelectGraph} />
         <Menu setCurrentAlgorithm={setCurrentAlgorithm} />
         <div className='canvas' ref={canvasRef}>
           <svg>
@@ -153,9 +152,17 @@ export default function Main() {
         />
         <Reproductor speed={speed} setSpeed={setSpeed} />
         <LogData logdata={logdata} />
-        <DrawGraphButton setShowDrawGraph={setShowDrawGraph} />
         <Footer />
       </main>
+      {showSelectGraph && (
+        <SelectGraph
+          sendGraph={setGraphData}
+          close={() => {
+            setShowSelectGraph(false);
+            resetViz();
+          }}
+        />
+      )}
       {showDrawGraph && (
         <DrawGraph
           currentGraph={graphData}

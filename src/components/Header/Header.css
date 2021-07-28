@@ -1,0 +1,42 @@
+.header {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  color: white;
+}
+
+.header h1 {
+  margin: 0 1rem 0 1rem;
+  font-size: 1.25rem;
+  justify-self: center;
+  align-self: center;
+  font-family: 'Bree Serif', serif;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+.header-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.header-button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: #112d4e;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  width: 9rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+.header-button:hover {
+  transform: scale(1.05);
+}
+.header-button h2 {
+  margin: 0;
+  font-size: 1rem;
+}

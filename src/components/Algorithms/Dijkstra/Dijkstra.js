@@ -53,7 +53,7 @@ export async function Dijkstra(graphData, source, vizNode, vizEdge, setFocusCode
   const P = []; // Parents
   for (let i = 0; i < topNode; i++) {
     D.push(Number.MAX_VALUE);
-    P.push(-1);
+    P.push(null);
 
     //Visualization
     setTag(i, '∞');

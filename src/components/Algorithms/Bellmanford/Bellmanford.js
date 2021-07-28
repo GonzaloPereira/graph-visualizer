@@ -38,14 +38,16 @@ export async function Bellmanford(
   setTag(source, '0');
 
   for (let i = 0; i < cntNodes - 1; i++) {
+    let hasRelaxed = false;
     for (let j = 0; j < edges.length; j++) {
       const { u, v, w } = edges[j];
       //Visualization
-      vizEdge(u, v, 'red', isDirected);
       setFocusCodeLine();
+      await delay(delayTime / 5);
+      vizEdge(u, v, 'red', isDirected);
 
-      await checkEdge(u, v, w);
-      if (!isDirected) await checkEdge(v, u, w);
+      hasRelaxed |= await checkEdge(u, v, w);
+      if (!isDirected) hasRelaxed |= await checkEdge(v, u, w);
 
       //Visualization
       await delay(delayTime);
@@ -55,6 +57,7 @@ export async function Bellmanford(
         vizEdge(u, v, 'blue', isDirected);
       } else vizEdge(u, v, 'black', isDirected);
     }
+    if (!hasRelaxed) break;
   }
   for (let i = 0; i < edges.length; i++) {
     const { u, v, w } = edges[i];
@@ -83,9 +86,9 @@ export async function Bellmanford(
       vizNode(v, 'green');
       vizEdge(u, v, 'green', isDirected);
       printLog(`Relaxed distance of node ${v} with edge ${u}->${v} : New distance D[${v}] = ${D[v]}`);
-      setFocusCodeLine();
-      await delay(delayTime / 5);
       setFocusCodeLine(6);
+      return true;
     }
+    return false;
   }
 }

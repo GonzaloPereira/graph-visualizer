@@ -11,7 +11,7 @@ export default function ExportImport({ graphData, setGraph }) {
   return (
     <div className='import-export'>
       <div className='export-name' onClick={() => setShowImport()}>
-        {showImport ? <ArrowDropDownIcon /> : <CheckCircleIcon style={{ fontSize: '1.2rem' }} />}
+        {showImport ? <ArrowDropDownIcon /> : <CheckCircleIcon style={{ fontSize: '1.1rem', marginLeft: '0.2rem' }} />}
         <h2>Export</h2>
       </div>
       {!showImport && (
@@ -38,7 +38,7 @@ export default function ExportImport({ graphData, setGraph }) {
         onClick={() => setShowImport()}
         style={{ borderRadius: `${showImport ? '0' : '0 0 5px 5px'}` }}
       >
-        {showImport ? <CheckCircleIcon style={{ fontSize: '1.2rem' }} /> : <ArrowDropDownIcon />}
+        {showImport ? <CheckCircleIcon style={{ fontSize: '1.1rem', marginLeft: '0.2rem' }} /> : <ArrowDropDownIcon />}
         <h2>Import</h2>
       </div>
       {showImport && (

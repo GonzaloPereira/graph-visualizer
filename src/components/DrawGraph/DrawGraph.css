@@ -180,13 +180,6 @@
   height: 500px;
   box-sizing: border-box;
 }
-/* .import-export h2 {
-  background-color: #112d4e;
-  margin: 0;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0.3rem;
-} */
 .export-name,
 .import-name {
   display: flex;
@@ -201,6 +194,9 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+.import-name {
+  border-top: solid #3f72af 1px;
 }
 .export-name h2 {
   flex-grow: 1;

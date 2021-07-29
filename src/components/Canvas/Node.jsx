@@ -4,7 +4,7 @@ export default function Node({ position, id, highlight, tag }) {
   function color() {
     switch (highlight) {
       case 'blue':
-        return '#39A2DB'; // blue
+        return '#77ACF1'; // blue
       case 'red':
         return 'red';
       case 'green':

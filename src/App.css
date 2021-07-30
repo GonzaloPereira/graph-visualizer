@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+/* Tutorial */
+.tutorial {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a1b2c;
+}
+.tutorial img {
+  max-height: 100%;
+  max-width: 100%;
+}
+.tutorial-button {
+  color: white;
+  width: 140px;
+  height: 30px;
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  margin-left: -75px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #dd024e;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.tutorial-button:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.tutorial-button h3 {
+  margin: 0;
+  margin-top: -0.2rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}

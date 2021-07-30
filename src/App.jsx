@@ -1,11 +1,11 @@
-import './App.css';
+import React, { useState } from 'react';
 import Main from './components/Main';
+import Tutorial from './components/Tutorial';
+import './App.css';
+
 function App() {
-  return (
-    <div className='App'>
-      <Main />
-    </div>
-  );
+  const [showTutorial, setShowTutorial] = useState(true);
+  return <div className='App'>{showTutorial ? <Tutorial close={() => setShowTutorial(false)} /> : <Main />}</div>;
 }
 
 export default App;

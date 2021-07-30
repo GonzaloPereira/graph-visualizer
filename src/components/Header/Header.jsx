@@ -6,7 +6,7 @@ import './Header.css';
 export default function Header({ setShowDrawGraph, setShowSelectGraph }) {
   return (
     <div className='header'>
-      <h1 className='header-title'>Graph Visualizer</h1>
+      <h1 className='header-title'>Graph Algorithms Visualizer</h1>
       <div className='header-button-container'>
         <div className='header-button' onClick={() => setShowSelectGraph(true)}>
           <h2>Select graph</h2>

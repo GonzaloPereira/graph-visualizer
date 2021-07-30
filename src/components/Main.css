@@ -21,7 +21,7 @@ main {
 }
 .canvas {
   grid-area: canvas;
-  background-color: #f9f7f7;
+  background-color: white;
 }
 .canvas svg {
   width: 100%;
@@ -46,12 +46,13 @@ main {
   background-color: #112d4e;
   color: white;
   font-size: 0.75rem;
+  font-family: 'Castoro', serif;
   display: flex;
   flex-wrap: wrap;
   column-gap: 0.5vw;
   align-items: center;
   justify-content: center;
-  padding-top: 0.2rem;
+  padding-top: 0.3rem;
   border-top: solid #06121f 1px;
 }
 .footer svg:hover {
@@ -60,4 +61,5 @@ main {
 }
 .footer p {
   margin: 0;
+  margin-top: 0.2rem;
 }

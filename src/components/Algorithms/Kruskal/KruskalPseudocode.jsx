@@ -17,10 +17,10 @@ export default function KruskalPseudocode({ focusCodeLine }) {
         <strong>for</strong> each edge (u,v)
       </li>
       <li className='tab2' style={highlight(5)}>
-        <strong>if</strong> FIND( u ) ≠ FIND( v )
+        <strong>if </strong> FIND(u) ≠ FIND(v)
       </li>
       <li className='tab3' style={highlight(5)}>
-        UNION(SET( u ), SET( v ))
+        UNION(SET(u), SET(v))
       </li>
     </ol>
   );

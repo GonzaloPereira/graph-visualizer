@@ -3,13 +3,14 @@
   color: white;
   text-align: left;
   overflow: auto;
+  font-family: 'Castoro', serif;
 }
 .menu h2 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 400;
   border-bottom: solid #06121f 1px;
   margin: 0;
-  padding: 1rem 1rem 0.2rem 1rem;
-  font-family: 'Castoro', serif;
+  padding: 0.5rem 1rem 0.2rem;
   background-color: #112d4e;
 }
 .submenu {
@@ -19,6 +20,7 @@
   display: grid;
   grid-template-columns: auto 30px;
   align-items: center;
+  font-weight: 400;
 }
 .submenu-title:hover {
   background-color: hsl(212, 64%, 15%);
@@ -40,6 +42,7 @@
   font-weight: 400;
   padding: 0.6rem;
   padding-left: 1.8rem;
+  padding-bottom: 0.2rem;
   background-color: #06121f;
   margin: 0;
 }

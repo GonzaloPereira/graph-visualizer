@@ -57,20 +57,20 @@
   background-color: #dbe2ef;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   color: #384259;
-  font-size: 0.84vw;
+  font-size: 0.8vw;
 }
 .instructions h2 {
   text-align: center;
   color: black;
   margin-top: 0.5rem;
-  font-family: 'Bree Serif', serif;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 .instructions li {
   margin-bottom: 1rem;
   list-style: none;
   position: relative;
   padding: 0 0 5px 20px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .instructions li::before {
@@ -146,8 +146,11 @@
   justify-self: right;
 }
 .draw-graph-checkbox h3 {
-  margin: 10px 0 0 0;
+  margin: 0;
+  margin-top: 0.45rem;
   font-size: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
 }
 .draw-graph-button {
   display: flex;
@@ -160,16 +163,17 @@
   background-color: #112d4e;
   border-radius: 5px;
   padding: 0.5rem 30px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  cursor: pointer;
 }
 .draw-graph-button:hover {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(1.05);
+  cursor: pointer;
 }
 .draw-graph-button h3 {
   margin: 0;
   margin-top: -0.2rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
 }
 
 /* Input / Output grid css  */
@@ -179,6 +183,7 @@
   grid-template-rows: 30px 30px 1fr 30px;
   height: 500px;
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
 }
 .export-name,
 .import-name {
@@ -201,10 +206,12 @@
 .export-name h2 {
   flex-grow: 1;
   margin: 0;
+  font-weight: 400;
 }
 .import-name h2 {
   flex-grow: 1;
   margin: 0;
+  font-weight: 400;
 }
 @keyframes dropMenu {
   from {
@@ -251,6 +258,8 @@
   padding: 5px;
   tab-size: 2;
   border-radius: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 200;
 }
 .copy-icon {
   opacity: 0.25;

@@ -19,14 +19,16 @@ export default function Node({ position, id, highlight, tag }) {
   }
   function colortag() {
     switch (highlight) {
-      case 1:
-        return 'blue'; // blue
-      case 2:
+      case 'blue':
+        return '#001E6C'; // blue
+      case 'red':
         return 'red';
-      case 3:
+      case 'green':
         return 'green'; // green
-      case 4:
-        return 'blue';
+      case 'yellow':
+        return 'black';
+      case 'white':
+        return 'black';
       default:
         return 'black';
     }

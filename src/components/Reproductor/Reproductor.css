@@ -1,6 +1,8 @@
 .reproductor {
-  background-color: #f9f7f7;
+  background-color: white;
   display: flex;
   gap: 100px;
   justify-content: space-around;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
 }

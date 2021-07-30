@@ -9,6 +9,7 @@ import Reproductor from './Reproductor/Reproductor';
 import AlgorithmsController from './Algorithms/AlgorithmsController';
 import LogData from './LogData/LogData';
 import Header from './Header/Header';
+import SnackbarAlert from './Common/SnackbarAlert';
 import './Main.css';
 
 function vizDataReducer(state, event) {
@@ -96,10 +97,19 @@ export default function Main() {
       resetViz();
     }
   }, [isPlaying, resetViz]);
+  // Snackbar alert errors
+  const [openError, setOpenError] = useState(false);
+  const [error, setError] = useState();
   return (
     <>
       <main>
-        <Header setShowDrawGraph={setShowDrawGraph} setShowSelectGraph={setShowSelectGraph} />
+        <Header
+          setShowDrawGraph={setShowDrawGraph}
+          setShowSelectGraph={setShowSelectGraph}
+          setOpenError={setOpenError}
+          setError={setError}
+          isPlaying={isPlaying}
+        />
         <Menu setCurrentAlgorithm={setCurrentAlgorithm} />
         <div className='canvas' ref={canvasRef}>
           <svg>
@@ -153,6 +163,7 @@ export default function Main() {
         <Reproductor speed={speed} setSpeed={setSpeed} />
         <LogData logdata={logdata} />
         <Footer />
+        <SnackbarAlert openError={openError} setOpenError={setOpenError} error={error} />
       </main>
       {showSelectGraph && (
         <SelectGraph

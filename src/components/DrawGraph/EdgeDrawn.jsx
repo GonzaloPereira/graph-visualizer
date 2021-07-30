@@ -42,7 +42,7 @@ export default function EdgeDrawn({ id, edge, position, currentEdge, handleClick
             x2={position.x2}
             y2={position.y2}
             stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
-            strokeWidth='3px'
+            strokeWidth='4px'
           />
         </>
       )}
@@ -58,7 +58,7 @@ export default function EdgeDrawn({ id, edge, position, currentEdge, handleClick
           <path
             d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
             stroke={currentEdge && currentEdge === id ? '#3F72AF' : 'black'}
-            strokeWidth='3px'
+            strokeWidth='4px'
             fill='transparent'
           />
         </>

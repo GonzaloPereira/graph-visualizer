@@ -30,7 +30,7 @@ export async function Topsort(
   color[0] = 0;
 
   for (let i = 0; i < topNode; i++) {
-    await DfsCall(i);
+    if (graphData.nodes.hasOwnProperty(i)) await DfsCall(i);
   }
 
   async function DfsCall(u, parent) {

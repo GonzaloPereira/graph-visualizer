@@ -10,11 +10,11 @@
   font-weight: 400;
   border-bottom: solid #06121f 1px;
   margin: 0;
-  padding: 0.5rem 1rem 0.2rem;
+  padding: 0.8rem 1rem 0.5rem;
   background-color: #112d4e;
 }
 .submenu {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .submenu-title {
   display: grid;

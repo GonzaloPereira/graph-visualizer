@@ -4,8 +4,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 export default function EditWeight({ currentEdge, setCurrentEdge, handleSubmit }) {
   const newWeight = useRef();
   useEffect(() => {
-    if (currentEdge && newWeight.current) newWeight.current.focus();
-  }, [currentEdge]);
+    if (newWeight.current) newWeight.current.focus();
+  }, []);
   return (
     <form
       className='edit-weight-form'

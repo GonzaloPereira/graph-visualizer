@@ -11,6 +11,10 @@ export async function Kruskal(graphData, vizNode, vizEdge, setFocusCodeLine, del
   await delay(50);
   printLog('Kruskal: ');
 
+  edges.forEach((edge) => {
+    vizEdge(edge.u, edge.v, 'transparent', isDirected);
+  });
+
   const size = []; //Sizes of components
   const P = []; //Parents of nodes
 
@@ -33,7 +37,7 @@ export async function Kruskal(graphData, vizNode, vizEdge, setFocusCodeLine, del
       vizEdge(u, v, 'red', isDirected);
       printLog(`${u} and ${v} are already connected`);
       await delay(delayTime);
-      vizEdge(u, v, 'black', isDirected);
+      vizEdge(u, v, 'transparent', isDirected);
     } else {
       totalWeight += w;
       components--;

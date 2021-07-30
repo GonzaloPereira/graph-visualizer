@@ -48,6 +48,10 @@ export async function Prim(graphData, source, vizNode, vizEdge, setFocusCodeLine
   await delay(50);
   printLog('Prim algorithm:');
 
+  edges.forEach((edge) => {
+    vizEdge(edge.u, edge.v, 'transparent', isDirected);
+  });
+
   const cost = []; // Array of distances
   const Q = new PriorityQueue(); // Priority queue
   const P = []; // Parents

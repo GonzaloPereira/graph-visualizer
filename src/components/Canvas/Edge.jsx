@@ -32,6 +32,8 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
         return 'yellow';
       case 'black':
         return 'black';
+      case 'transparent':
+        return 'rgba(0,0,0,0.5)';
       default:
         return 'black';
     }
@@ -42,7 +44,7 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
       {!isCurved && (
         <>
           <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke='rgba(0,0,0,0)' strokeWidth='15px' />
-          <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke={color()} strokeWidth='3px' />
+          <line x1={position.x1} y1={position.y1} x2={position.x2} y2={position.y2} stroke={color()} strokeWidth='4px' />
         </>
       )}
       {/* Curved lines  */}
@@ -57,7 +59,7 @@ export default function Edge({ id, edge, position, isWeighted, isDirected, isCur
           <path
             d={`M ${position.x1} ${position.y1} Q ${bezierX} ${bezierY} ${position.x2} ${position.y2}`}
             stroke={color()}
-            strokeWidth='3px'
+            strokeWidth='4px'
             fill='transparent'
           />
         </>

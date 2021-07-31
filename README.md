@@ -1,4 +1,4 @@
-# Graph Visualizer [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://gonzalopereira.github.io/graph-visualizer/)<img align="right" src="images/logo.png" alt="Logo" width="80" height="80" >
+# Graph Visualizer [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://gonzalopereira.github.io/graph-visualizer/)<img align="right" src="public/images/logo.png" alt="Logo" width="80" height="80" >
 
 
 ## Draw your own graphs and visualize the most common graph algorithms
